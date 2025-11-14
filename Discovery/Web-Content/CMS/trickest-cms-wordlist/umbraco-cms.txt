@@ -194,6 +194,16 @@ tests/Umbraco.Tests.AcceptanceTest/tests/DefaultConfig/RenderingContent/Renderin
 tests/Umbraco.Tests.AcceptanceTest/tests/DefaultConfig/RenderingContent/RenderingContentWithMultipleMediaPicker.spec.ts
 tests/Umbraco.Tests.AcceptanceTest/tests/DefaultConfig/RenderingContent/RenderingContentWithImageCropper.spec.ts
 tests/Umbraco.Tests.AcceptanceTest/tests/DefaultConfig/RelationTypes/RelationTypes.spec.ts
+tests/Umbraco.Tests.AcceptanceTest/tests/EntityDataPicker/Content/EntityPickerCollection.spec.ts
+tests/Umbraco.Tests.AcceptanceTest/tests/EntityDataPicker/Content/EntityPickerTree.spec.ts
+tests/Umbraco.Tests.AcceptanceTest/tests/EntityDataPicker/AdditionalSetup/App_Plugins/picker-data-source/umbraco-package.json
+tests/Umbraco.Tests.AcceptanceTest/tests/EntityDataPicker/AdditionalSetup/App_Plugins/picker-data-source/collection-api.js
+tests/Umbraco.Tests.AcceptanceTest/tests/EntityDataPicker/AdditionalSetup/App_Plugins/picker-data-source/tree-api.js
+tests/Umbraco.Tests.AcceptanceTest/tests/EntityDataPicker/AdditionalSetup/appsettings.json
+tests/Umbraco.Tests.AcceptanceTest/tests/EntityDataPicker/DataType/EntityPickerCollection.spec.ts
+tests/Umbraco.Tests.AcceptanceTest/tests/EntityDataPicker/DataType/EntityPickerTree.spec.ts
+tests/Umbraco.Tests.AcceptanceTest/tests/EntityDataPicker/RenderedContent/EntityPickerCollection.spec.ts
+tests/Umbraco.Tests.AcceptanceTest/tests/EntityDataPicker/RenderedContent/EntityPickerTree.spec.ts
 tests/Umbraco.Tests.AcceptanceTest/tests/DeliveryApi/AdditionalSetup/Program.cs
 tests/Umbraco.Tests.AcceptanceTest/tests/DeliveryApi/AdditionalSetup/appsettings.json
 tests/Umbraco.Tests.AcceptanceTest/tests/DeliveryApi/MediaDeliveryApi.spec.ts
@@ -4340,6 +4350,8 @@ src/Umbraco.Cms.Persistence.Sqlite/SqliteComposer.cs
 src/Umbraco.Cms.Persistence.Sqlite/Constants.cs
 src/Umbraco.Cms.Persistence.Sqlite/Mappers/SqliteGuidScalarMapper.cs
 src/Umbraco.Cms.Persistence.Sqlite/Mappers/SqlitePocoGuidMapper.cs
+src/Umbraco.Cms.Persistence.Sqlite/Mappers/SqlitePocoDecimalMapper.cs
+src/Umbraco.Cms.Persistence.Sqlite/Mappers/SqlitePocoDateAndTimeOnlyMapper.cs
 src/Umbraco.Cms.Persistence.Sqlite/Umbraco.Cms.Persistence.Sqlite.csproj
 src/Umbraco.Cms.Persistence.Sqlite/Services/SqliteDatabaseProviderMetadata.cs
 src/Umbraco.Cms.Persistence.Sqlite/Services/SqliteSpecificMapperFactory.cs
