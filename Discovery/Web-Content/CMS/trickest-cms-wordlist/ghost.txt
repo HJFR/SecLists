@@ -45,6 +45,7 @@ ghost/admin/tests/unit/components/gh-post-settings-menu-test.js
 ghost/admin/tests/unit/components/koenig-lexical-editor-test.js
 ghost/admin/tests/unit/routes/lexical-editor.new-test.js
 ghost/admin/tests/unit/routes/explore-test.js
+ghost/admin/tests/unit/serializers/member-test.js
 ghost/admin/tests/unit/serializers/notification-test.js
 ghost/admin/tests/unit/models/post-test.js
 ghost/admin/tests/unit/models/invite-test.js
@@ -1715,6 +1716,7 @@ ghost/core/test/e2e-api/admin/email-previews.test.js
 ghost/core/test/e2e-api/admin/authentication.test.js
 ghost/core/test/e2e-api/admin/slugs.test.js
 ghost/core/test/e2e-api/admin/utils.js
+ghost/core/test/e2e-api/admin/automated-emails.test.js
 ghost/core/test/e2e-api/admin/mentions.test.js
 ghost/core/test/e2e-api/admin/tinybird.test.js
 ghost/core/test/e2e-api/admin/search-index.test.js
@@ -1767,6 +1769,7 @@ ghost/core/test/e2e-api/admin/emails.test.js
 ghost/core/test/e2e-api/admin/images.test.js
 ghost/core/test/e2e-api/admin/__snapshots__/activity-feed.test.js.snap
 ghost/core/test/e2e-api/admin/__snapshots__/notifications.test.js.snap
+ghost/core/test/e2e-api/admin/__snapshots__/automated-emails.test.js.snap
 ghost/core/test/e2e-api/admin/__snapshots__/members-exporter.test.js.snap
 ghost/core/test/e2e-api/admin/__snapshots__/session.test.js.snap
 ghost/core/test/e2e-api/admin/__snapshots__/snippets.test.js.snap
@@ -2113,6 +2116,7 @@ ghost/core/test/unit/server/services/auth/session/middleware.test.js
 ghost/core/test/unit/server/services/auth/api-key/content.test.js
 ghost/core/test/unit/server/services/auth/api-key/admin.test.js
 ghost/core/test/unit/server/services/auth/SessionFromToken.test.js
+ghost/core/test/unit/server/services/outbox/index.test.js
 ghost/core/test/unit/server/services/koenig/render-utils/tagged-template-fns.test.js
 ghost/core/test/unit/server/services/koenig/render-utils/stylex.test.js
 ghost/core/test/unit/server/services/koenig/node-renderers.test.js
@@ -2199,7 +2203,7 @@ ghost/core/test/unit/server/services/route-settings/settings-path-manager.test.j
 ghost/core/test/unit/server/services/webhooks/serialize.test.js
 ghost/core/test/unit/server/services/webhooks/webhook-service.test.js
 ghost/core/test/unit/server/services/webhooks/trigger.test.js
-ghost/core/test/unit/server/services/member-welcome-emails/send-member-welcome-email.test.js
+ghost/core/test/unit/server/services/member-welcome-emails/MemberWelcomeEmailRenderer.test.js
 ghost/core/test/unit/server/services/url/Urls.test.js
 ghost/core/test/unit/server/services/url/Resources.test.js
 ghost/core/test/unit/server/services/url/LocalFileCache.test.js
@@ -3183,6 +3187,14 @@ ghost/core/core/server/services/auth/api-key/index.js
 ghost/core/core/server/services/auth/authenticate.js
 ghost/core/core/server/services/auth/index.js
 ghost/core/core/server/services/auth/setup.js
+ghost/core/core/server/services/outbox/jobs/lib/process-entries.js
+ghost/core/core/server/services/outbox/jobs/lib/constants.js
+ghost/core/core/server/services/outbox/jobs/lib/process-outbox.js
+ghost/core/core/server/services/outbox/jobs/index.js
+ghost/core/core/server/services/outbox/jobs/outbox-job.js
+ghost/core/core/server/services/outbox/events/StartOutboxProcessingEvent.js
+ghost/core/core/server/services/outbox/index.js
+ghost/core/core/server/services/outbox/handlers/member-created.js
 ghost/core/core/server/services/koenig/render-utils/visibility.js
 ghost/core/core/server/services/koenig/render-utils/add-create-document-option.js
 ghost/core/core/server/services/koenig/render-utils/is-local-content-image.js
@@ -3335,16 +3347,10 @@ ghost/core/core/server/services/webhooks/webhooks-service.js
 ghost/core/core/server/services/webhooks/WebhookTrigger.js
 ghost/core/core/server/services/webhooks/index.js
 ghost/core/core/server/services/webhooks/serialize.js
-ghost/core/core/server/services/member-welcome-emails/jobs/lib/email-templates/welcome.html.js
-ghost/core/core/server/services/member-welcome-emails/jobs/lib/email-templates/welcome.txt.js
-ghost/core/core/server/services/member-welcome-emails/jobs/lib/get-mail-config.js
-ghost/core/core/server/services/member-welcome-emails/jobs/lib/process-entries.js
-ghost/core/core/server/services/member-welcome-emails/jobs/lib/constants.js
-ghost/core/core/server/services/member-welcome-emails/jobs/lib/process-outbox.js
-ghost/core/core/server/services/member-welcome-emails/jobs/lib/send-member-welcome-email.js
-ghost/core/core/server/services/member-welcome-emails/jobs/index.js
-ghost/core/core/server/services/member-welcome-emails/jobs/member-welcome-email-job.js
-ghost/core/core/server/services/member-welcome-emails/events/StartMemberWelcomeEmailJobEvent.js
+ghost/core/core/server/services/member-welcome-emails/email-templates/wrapper.hbs
+ghost/core/core/server/services/member-welcome-emails/service.js
+ghost/core/core/server/services/member-welcome-emails/constants.js
+ghost/core/core/server/services/member-welcome-emails/MemberWelcomeEmailRenderer.js
 ghost/core/core/server/services/member-welcome-emails/index.js
 ghost/core/core/server/services/slack.js
 ghost/core/core/server/services/invitations/accept.js
@@ -3560,6 +3566,7 @@ ghost/core/core/server/api/endpoints/authentication.js
 ghost/core/core/server/api/endpoints/db.js
 ghost/core/core/server/api/endpoints/comments-members.js
 ghost/core/core/server/api/endpoints/site.js
+ghost/core/core/server/api/endpoints/automated-emails.js
 ghost/core/core/server/api/endpoints/comment-replies.js
 ghost/core/core/server/api/endpoints/integrations.js
 ghost/core/core/server/api/endpoints/previews.js
@@ -3694,6 +3701,7 @@ ghost/core/core/server/api/endpoints/utils/validators/input/password_reset.js
 ghost/core/core/server/api/endpoints/utils/validators/input/settings.js
 ghost/core/core/server/api/endpoints/utils/validators/input/labels.js
 ghost/core/core/server/api/endpoints/utils/validators/input/invites.js
+ghost/core/core/server/api/endpoints/utils/validators/input/automated_emails.js
 ghost/core/core/server/api/endpoints/utils/validators/input/users.js
 ghost/core/core/server/api/endpoints/utils/validators/input/oembed.js
 ghost/core/core/server/api/endpoints/utils/validators/input/invitations.js
@@ -3812,6 +3820,7 @@ ghost/core/core/server/data/tinybird/README.md
 ghost/core/core/server/data/tinybird/tests/api_active_visitors.yaml
 ghost/core/core/server/data/tinybird/tests/api_top_utm_terms.yaml
 ghost/core/core/server/data/tinybird/tests/api_monitoring_ingestion_aggregated.yaml
+ghost/core/core/server/data/tinybird/tests/api_top_devices.yaml
 ghost/core/core/server/data/tinybird/tests/api_post_visitor_counts.yaml
 ghost/core/core/server/data/tinybird/tests/api_kpis.yaml
 ghost/core/core/server/data/tinybird/tests/api_top_pages.yaml
@@ -3829,6 +3838,7 @@ ghost/core/core/server/data/tinybird/endpoints/api_monitoring_ingestion_aggregat
 ghost/core/core/server/data/tinybird/endpoints/README.md
 ghost/core/core/server/data/tinybird/endpoints/api_top_utm_mediums.pipe
 ghost/core/core/server/data/tinybird/endpoints/api_top_utm_contents.pipe
+ghost/core/core/server/data/tinybird/endpoints/api_top_devices.pipe
 ghost/core/core/server/data/tinybird/endpoints/api_kpis.pipe
 ghost/core/core/server/data/tinybird/endpoints/api_post_visitor_counts.pipe
 ghost/core/core/server/data/tinybird/endpoints/api_active_visitors.pipe
@@ -3932,6 +3942,7 @@ ghost/core/core/server/data/migrations/versions/5.20/2022-10-20-02-52-add-link-e
 ghost/core/core/server/data/migrations/versions/6.3/2025-10-02-15-13-31-add-members-otc-secret-setting.js
 ghost/core/core/server/data/migrations/versions/5.59/2023-08-07-10-42-add-donation-notifications-column.js
 ghost/core/core/server/data/migrations/versions/5.59/2023-08-07-11-17-05-add-posts-published-at-index.js
+ghost/core/core/server/data/migrations/versions/6.10/2025-12-01-21-04-37-add-automated-email-permissions.js
 ghost/core/core/server/data/migrations/versions/6.10/2025-12-01-21-04-36-add-automated-emails-table.js
 ghost/core/core/server/data/migrations/versions/5.63/2023-09-13-13-34-11-add-ghost-core-content-integration-key.js
 ghost/core/core/server/data/migrations/versions/5.63/2023-09-13-13-03-10-add-ghost-core-content-integration.js
@@ -4203,10 +4214,9 @@ e2e/eslint.config.js
 e2e/playwright.config.mjs
 e2e/README.md
 e2e/tests/admin/analytics/newsletters.test.ts
-e2e/tests/admin/analytics/location.test.ts
-e2e/tests/admin/analytics/utm-tracking.test.ts
 e2e/tests/admin/analytics/post-analytics/growth.test.ts
 e2e/tests/admin/analytics/post-analytics/overview.test.ts
+e2e/tests/admin/analytics/web-filters.test.ts
 e2e/tests/admin/analytics/growth.test.ts
 e2e/tests/admin/analytics/web-traffic.test.ts
 e2e/tests/admin/analytics/overview.test.ts
@@ -4226,6 +4236,7 @@ e2e/tests/admin/sidebar/navigation.test.ts
 e2e/tests/admin/reset-password.test.ts
 e2e/tests/admin/settings/settings-search.test.ts
 e2e/tests/admin/settings/publication-language.test.ts
+e2e/tests/admin/settings/member-welcome-emails.test.ts
 e2e/tests/global.setup.ts
 e2e/tests/public/homepage.test.ts
 e2e/tests/public/member-signup.test.ts
@@ -4248,6 +4259,7 @@ e2e/data-factory/persistence/adapters/ghost-api.ts
 e2e/data-factory/factories/user-factory.ts
 e2e/data-factory/factories/member-factory.ts
 e2e/data-factory/factories/post-factory.ts
+e2e/data-factory/factories/automated-email-factory.ts
 e2e/data-factory/factories/tag-factory.ts
 e2e/data-factory/utils.ts
 e2e/.env.example
@@ -4268,7 +4280,6 @@ e2e/helpers/pages/admin/analytics/post-analytics/post-analytics-page.ts
 e2e/helpers/pages/admin/analytics/analytics-growth-page.ts
 e2e/helpers/pages/admin/analytics/index.ts
 e2e/helpers/pages/admin/analytics/analytics-overview-page.ts
-e2e/helpers/pages/admin/analytics/analytics-locations-page.ts
 e2e/helpers/pages/admin/password-reset-page.ts
 e2e/helpers/pages/admin/posts/posts-page.ts
 e2e/helpers/pages/admin/posts/custom-view-modal.ts
@@ -4297,6 +4308,7 @@ e2e/helpers/pages/admin/settings/sections/labs-section.ts
 e2e/helpers/pages/admin/settings/sections/index.ts
 e2e/helpers/pages/admin/settings/sections/staff-section.ts
 e2e/helpers/pages/admin/settings/sections/publications-section.ts
+e2e/helpers/pages/admin/settings/sections/member-welcome-emails-section.ts
 e2e/helpers/pages/admin/admin-page.ts
 e2e/helpers/pages/admin/whats-new/whats-new-modal.ts
 e2e/helpers/pages/admin/whats-new/whats-new-menu.ts
@@ -4520,9 +4532,11 @@ apps/stats/src/hooks/use-top-sources-growth.ts
 apps/stats/src/hooks/use-latest-post-stats.ts
 apps/stats/src/hooks/use-feature-flag.tsx
 apps/stats/src/hooks/use-newsletter-stats-with-range.ts
+apps/stats/src/hooks/use-filter-params.ts
 apps/stats/src/hooks/use-limiter.ts
 apps/stats/src/hooks/with-feature-flag.tsx
 apps/stats/src/hooks/use-top-posts-stats-with-range.ts
+apps/stats/src/views/Stats/components/disabled-sources-indicator.tsx
 apps/stats/src/views/Stats/components/post-menu.tsx
 apps/stats/src/views/Stats/components/source-icon.tsx
 apps/stats/src/views/Stats/components/newsletter-select.tsx
@@ -4547,8 +4561,7 @@ apps/stats/src/views/Stats/layout/stats-header.tsx
 apps/stats/src/views/Stats/layout/stats-content.tsx
 apps/stats/src/views/Stats/layout/stats-view.tsx
 apps/stats/src/views/Stats/layout/stats-layout.tsx
-apps/stats/src/views/Stats/Locations/index.ts
-apps/stats/src/views/Stats/Locations/locations.tsx
+apps/stats/src/views/Stats/Locations/components/locations-card.tsx
 apps/stats/src/views/Stats/Newsletters/components/newsletters-kpis.tsx
 apps/stats/src/views/Stats/Newsletters/index.ts
 apps/stats/src/views/Stats/Newsletters/newsletters.tsx
@@ -4669,6 +4682,7 @@ apps/admin-x-settings/src/components/settings/membership/analytics.tsx
 apps/admin-x-settings/src/components/settings/membership/tiers.tsx
 apps/admin-x-settings/src/components/settings/membership/access.tsx
 apps/admin-x-settings/src/components/settings/membership/portal.tsx
+apps/admin-x-settings/src/components/settings/membership/member-emails/member-email-editor.tsx
 apps/admin-x-settings/src/components/settings/membership/member-emails/welcome-email-modal.tsx
 apps/admin-x-settings/src/components/settings/membership/membership-settings.tsx
 apps/admin-x-settings/src/components/settings/membership/stripe/stripe-connect-modal.tsx
@@ -4879,6 +4893,7 @@ apps/posts/src/hooks/use-post-feedback.ts
 apps/posts/src/hooks/with-feature-flag.tsx
 apps/posts/src/hooks/use-post-newsletter-stats.ts
 apps/posts/src/hooks/use-post-referrers.ts
+apps/posts/src/views/PostAnalytics/components/disabled-sources-indicator.tsx
 apps/posts/src/views/PostAnalytics/components/post-analytics-header.tsx
 apps/posts/src/views/PostAnalytics/components/source-icon.tsx
 apps/posts/src/views/PostAnalytics/components/layout/post-analytics-layout.tsx
@@ -5224,6 +5239,7 @@ apps/admin-x-design-system/src/global/form/URLTextField.tsx
 apps/admin-x-design-system/src/global/form/HtmlField.tsx
 apps/admin-x-design-system/src/global/form/TextField.stories.tsx
 apps/admin-x-design-system/src/global/form/Toggle.stories.tsx
+apps/admin-x-design-system/src/global/form/KoenigEditorBase.tsx
 apps/admin-x-design-system/src/global/form/ToggleGroup.tsx
 apps/admin-x-design-system/src/global/form/Checkbox.tsx
 apps/admin-x-design-system/src/global/form/CodeEditor.stories.tsx
@@ -5746,6 +5762,7 @@ apps/admin-x-framework/src/api/integrations.ts
 apps/admin-x-framework/src/api/webhooks.ts
 apps/admin-x-framework/src/api/settings.ts
 apps/admin-x-framework/src/api/recommendations.ts
+apps/admin-x-framework/src/api/automatedEmails.ts
 apps/admin-x-framework/src/api/users.ts
 apps/admin-x-framework/src/api/activitypub.ts
 apps/admin-x-framework/src/api/offers.ts
@@ -5941,6 +5958,10 @@ apps/shade/.claude/commands/shadcn-add.md
 .claude/skills/create-database-migration/examples.md
 .claude/skills/create-database-migration/rules.md
 .claude/skills/create-database-migration/SKILL.md
+.claude/skills/add-admin-api-endpoint/permissions.md
+.claude/skills/add-admin-api-endpoint/SKILL.md
+.claude/skills/add-admin-api-endpoint/reference.md
+.claude/skills/add-admin-api-endpoint/validation.md
 adr/README.md
 adr/0002-page-objects-pattern.md
 adr/0001-aaa-test-structure.md
