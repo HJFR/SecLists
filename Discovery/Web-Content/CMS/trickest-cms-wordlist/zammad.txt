@@ -1207,6 +1207,11 @@ tsconfig.base.json
 .dev/rubocop/todo.yml
 .dev/rubocop/validate_todos.rb
 .dev/rubocop/default.yml
+.dev/agent_docs/graphql_patterns.md
+.dev/agent_docs/frontend_patterns.md
+.dev/agent_docs/database_migrations.md
+.dev/agent_docs/service_patterns.md
+.dev/agent_docs/testing.md
 .dev/coffeelint/rules/detect_translatable_string.coffee
 .dev/yard/autovivify_extension.rb
 .dev/cypress/visual-regression/docker-compose.arm.yml
@@ -1283,6 +1288,7 @@ db/migrate/20250714101518_update_ai_permissions.rb
 db/migrate/20170608151442_enhanced_permissions.rb
 db/migrate/20200806122951_cti_user_profile.rb
 db/migrate/20250902083249_missing_ui_ticket_create_notes_setting.rb
+db/migrate/20260304135400_password_settings_change_type.rb
 db/migrate/20170420000001_chat_increase_message_size.rb
 db/migrate/20221111124620_issue4306_delete_setting.rb
 db/migrate/20250805052346_drop_slack.rb
@@ -3640,6 +3646,7 @@ spec/db/migrate/issue_4412_setting_saml_idp_cert_switch_textarea_spec.rb
 spec/db/migrate/issue_3194_update_permissions_spec.rb
 spec/db/migrate/issue_4086_fix_historical_options_spec.rb
 spec/db/migrate/issue_5191_ensure_single_merged_state_spec.rb
+spec/db/migrate/password_settings_change_type_spec.rb
 spec/db/migrate/issue_1660_fix_tree_select_configurations_spec.rb
 spec/db/migrate/normalize_setting_ticket_number_ignore_system_id_spec.rb
 spec/db/migrate/ldap_samaccountname_to_uid_spec.rb
@@ -4724,6 +4731,7 @@ spec/models/form_updater/updater/user/notifications_spec.rb
 spec/models/form_updater/updater/user/edit_spec.rb
 spec/models/form_updater/updater/user/invite_spec.rb
 spec/models/form_updater/updater/user/current/new_access_token_spec.rb
+spec/models/form_updater/updater/ticket/bulk_edit_spec.rb
 spec/models/form_updater/updater/ticket/create_spec.rb
 spec/models/form_updater/updater/ticket/time_accounting_spec.rb
 spec/models/form_updater/updater/ticket/edit_spec.rb
@@ -4737,6 +4745,7 @@ spec/models/form_updater/concerns/applies_ticket_template_examples.rb
 spec/models/form_updater/concerns/applies_ticket_shared_draft_examples.rb
 spec/models/form_updater/concerns/stores_taskbar_state_examples.rb
 spec/models/form_updater/concerns/has_security_options_examples.rb
+spec/models/active_job_lock_spec.rb
 spec/models/channel/email_parser_spec.rb
 spec/models/channel/email_build_spec.rb
 spec/models/channel/driver/smtp_spec.rb
@@ -4803,6 +4812,7 @@ spec/models/application_model_examples.rb
 spec/models/online_notification_spec.rb
 spec/models/type_lookup_spec.rb
 spec/models/translation/synchronizes_from_po_spec.rb
+spec/models/locale/datefns_locale_mapping_spec.rb
 spec/models/trigger/sms_spec.rb
 spec/models/trigger/localization_spec.rb
 spec/models/ticket/daily_event_lock_spec.rb
@@ -5702,6 +5712,7 @@ app/frontend/shared/components/Form/fields/FieldButton/types.ts
 app/frontend/shared/components/Form/fields/FieldTreeSelect/composables/__tests__/useFlatSelectOptions.spec.ts
 app/frontend/shared/components/Form/fields/FieldTreeSelect/composables/useFlatSelectOptions.ts
 app/frontend/shared/components/Form/fields/FieldTreeSelect/types.ts
+app/frontend/shared/components/Form/fields/FieldDate/__tests__/useDateFnsLocale.spec.ts
 app/frontend/shared/components/Form/fields/FieldDate/useDateTime.ts
 app/frontend/shared/components/Form/fields/FieldDate/useDateFnsLocale.ts
 app/frontend/shared/components/Form/fields/FieldDate/types.ts
@@ -6453,7 +6464,6 @@ app/frontend/apps/mobile/pages/search/components/__tests__/SearchResults.spec.ts
 app/frontend/apps/mobile/pages/search/components/SearchResults.vue
 app/frontend/apps/mobile/pages/search/routes.ts
 app/frontend/apps/mobile/pages/search/views/SearchOverview.vue
-app/frontend/apps/mobile/pages/playground/__tests__/playground-a11y.spec.ts
 app/frontend/apps/mobile/pages/playground/routes.ts
 app/frontend/apps/mobile/pages/playground/views/PlaygroundOverview.vue
 app/frontend/apps/mobile/pages/ticket/__tests__/ticket-information-organization.spec.ts
