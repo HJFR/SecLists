@@ -1003,7 +1003,6 @@ core/modules/help/help_topics/core.web_services.html.twig
 core/modules/help/help_topics/core.performance.html.twig
 core/modules/help/help_topics/core.menus.html.twig
 core/modules/help/help_topics/core.translations.html.twig
-core/modules/help/help_topics/core.settings_tray.html.twig
 core/modules/help/help_topics/core.config_overview.html.twig
 core/modules/help/help_topics/core.cron.html.twig
 core/modules/help/help_topics/core.ui_accessibility.html.twig
@@ -1048,6 +1047,7 @@ core/modules/settings_tray/src/Hook/SettingsTrayHooks.php
 core/modules/settings_tray/src/Block/BlockEntitySettingTrayForm.php
 core/modules/settings_tray/src/Access/BlockHasOverridesAccessCheck.php
 core/modules/settings_tray/src/Access/BlockPluginHasSettingsTrayFormAccessCheck.php
+core/modules/settings_tray/help_topics/settings_tray.settings_tray.html.twig
 core/modules/settings_tray/js/settings_tray.js
 core/modules/settings_tray/settings_tray.libraries.yml
 core/modules/settings_tray/settings_tray.info.yml
@@ -10079,7 +10079,6 @@ core/tests/Drupal/KernelTests/Core/Recipe/PermissionsPerBundleTest.php
 core/tests/Drupal/KernelTests/Core/Recipe/RecipeTest.php
 core/tests/Drupal/KernelTests/Core/DefaultContent/AdminAccountSwitcherTest.php
 core/tests/Drupal/KernelTests/Core/DefaultContent/ImporterTest.php
-core/tests/Drupal/KernelTests/Core/Field/FieldStorageCreateCheckDeprecationTest.php
 core/tests/Drupal/KernelTests/Core/Field/FieldMissingTypeTest.php
 core/tests/Drupal/KernelTests/Core/Field/FieldType/PasswordItemTest.php
 core/tests/Drupal/KernelTests/Core/Field/FieldAccessTest.php
@@ -11416,7 +11415,6 @@ core/tests/Drupal/Tests/TestFileCreationTrait.php
 core/tests/Drupal/Tests/TestRequirementsTrait.php
 core/tests/Drupal/Tests/HttpKernelUiHelperTrait.php
 core/tests/Drupal/Tests/RandomGeneratorTrait.php
-core/tests/Drupal/Tests/PhpUnitCompatibilityTrait.php
 core/tests/Drupal/Tests/UnitTestCaseTest.php
 core/tests/Drupal/Tests/WebAssert.php
 core/tests/Drupal/Tests/PerformanceTestTrait.php
@@ -11444,7 +11442,6 @@ core/tests/Drupal/TestTools/Extension/InfoWriterTrait.php
 core/tests/Drupal/TestTools/PhpUnitTestCaseJUnitResult.php
 core/tests/Drupal/TestTools/Random.php
 core/tests/Drupal/TestTools/PhpUnitCompatibility/RunnerVersion.php
-core/tests/Drupal/TestTools/PhpUnitCompatibility/PhpUnit12/TestCompatibilityTrait.php
 core/tests/Drupal/TestTools/Comparator/MarkupInterfaceComparator.php
 core/tests/Drupal/TestTools/ErrorHandler/BootstrapErrorHandler.php
 core/tests/Drupal/TestTools/ErrorHandler/DrupalDebugClassLoader.php
