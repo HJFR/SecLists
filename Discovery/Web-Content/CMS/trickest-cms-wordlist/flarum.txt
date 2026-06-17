@@ -556,6 +556,7 @@ extensions/realtime/src/Websocket/Exception/OriginNotAllowed.php
 extensions/realtime/src/Websocket/Message/Factory.php
 extensions/realtime/src/Websocket/Message/Message.php
 extensions/realtime/src/Websocket/Message/ProtocolMessage.php
+extensions/realtime/src/Websocket/IndexTypingPresence.php
 extensions/realtime/src/Websocket/Server/HttpServer.php
 extensions/realtime/src/Websocket/Server/QueryParams.php
 extensions/realtime/src/Websocket/Concerns/Settings.php
@@ -593,6 +594,7 @@ extensions/realtime/src/Push/Payload/Generator.php
 extensions/realtime/src/Push/Listener/BroadcastNotifications.php
 extensions/realtime/src/Extend/Realtime.php
 extensions/realtime/src/Content/ForumContent.php
+extensions/realtime/src/Listener/RestartServerOnSettingChange.php
 extensions/realtime/extend.php
 extensions/realtime/js/package.json
 extensions/realtime/js/tsconfig.json
@@ -606,9 +608,11 @@ extensions/realtime/js/src/forum/utils/isIOS.ts
 extensions/realtime/js/src/forum/extenders/Realtime.ts
 extensions/realtime/js/src/forum/states/NotificationToastState.ts
 extensions/realtime/js/src/forum/states/TypingState.ts
+extensions/realtime/js/src/forum/states/IndexTypingState.ts
 extensions/realtime/js/src/forum/extend/Application.ts
 extensions/realtime/js/src/forum/extend/DiscussionList.ts
 extensions/realtime/js/src/forum/extend/DialogList.ts
+extensions/realtime/js/src/forum/extend/DiscussionList/IndexTyping.tsx
 extensions/realtime/js/src/forum/extend/DiscussionList/WebsocketUpdates.ts
 extensions/realtime/js/src/forum/extend/DiscussionList/NewActivity.ts
 extensions/realtime/js/src/forum/extend/User/RealtimeUserPreferences.tsx
@@ -629,12 +633,14 @@ extensions/realtime/js/dist-typings/forum/index.d.ts
 extensions/realtime/js/dist-typings/forum/RealtimeState.d.ts
 extensions/realtime/js/dist-typings/forum/utils/isIOS.d.ts
 extensions/realtime/js/dist-typings/forum/extenders/Realtime.d.ts
+extensions/realtime/js/dist-typings/forum/states/IndexTypingState.d.ts
 extensions/realtime/js/dist-typings/forum/states/NotificationToastState.d.ts
 extensions/realtime/js/dist-typings/forum/states/TypingState.d.ts
 extensions/realtime/js/dist-typings/forum/extend/DiscussionList.d.ts
 extensions/realtime/js/dist-typings/forum/extend/Discussion.d.ts
 extensions/realtime/js/dist-typings/forum/extend/Post.d.ts
 extensions/realtime/js/dist-typings/forum/extend/DialogList.d.ts
+extensions/realtime/js/dist-typings/forum/extend/DiscussionList/IndexTyping.d.ts
 extensions/realtime/js/dist-typings/forum/extend/DiscussionList/WebsocketUpdates.d.ts
 extensions/realtime/js/dist-typings/forum/extend/DiscussionList/NewActivity.d.ts
 extensions/realtime/js/dist-typings/forum/extend/User/RealtimeUserPreferences.d.ts
@@ -654,12 +660,17 @@ extensions/realtime/js/dist/forum.js.map
 extensions/realtime/js/dist/admin.js.map
 extensions/realtime/js/dist/forum.js.LICENSE.txt
 extensions/realtime/tests/integration/api/notifications/ShowNotificationTest.php
+extensions/realtime/tests/integration/api/IndexTypingTagAuthTest.php
 extensions/realtime/tests/integration/SendNotificationsJobTest.php
 extensions/realtime/tests/integration/payload/GeneratorTest.php
 extensions/realtime/tests/integration/setup.php
+extensions/realtime/tests/integration/RestartOnSettingChangeTest.php
 extensions/realtime/tests/phpunit.unit.xml
 extensions/realtime/tests/fixtures/.gitkeep
 extensions/realtime/tests/phpunit.integration.xml
+extensions/realtime/tests/unit/Websocket/FactoryRoutingTest.php
+extensions/realtime/tests/unit/Websocket/MessageTest.php
+extensions/realtime/tests/unit/Websocket/ChannelSubscriptionAuthTest.php
 extensions/realtime/tests/unit/Extend/RealtimeExtenderTest.php
 extensions/realtime/tests/unit/Extend/RealtimeRegistryTest.php
 extensions/realtime/tests/unit/.gitkeep
@@ -1057,6 +1068,7 @@ extensions/tags/src/Search/Filter/PostTagFilter.php
 extensions/tags/src/Search/Filter/TagFilter.php
 extensions/tags/src/Search/FulltextFilter.php
 extensions/tags/src/Search/HideHiddenTagsFromAllDiscussionsPage.php
+extensions/tags/src/IdWithSlugDriver.php
 extensions/tags/src/Tag.php
 extensions/tags/src/Event/DiscussionWasTagged.php
 extensions/tags/src/Event/Creating.php
@@ -1094,6 +1106,7 @@ extensions/tags/js/src/admin/admin.ts
 extensions/tags/js/src/admin/components/EditTagModal.tsx
 extensions/tags/js/src/admin/components/TagsPage.js
 extensions/tags/js/src/admin/components/SelectTagsSettingComponent.tsx
+extensions/tags/js/src/admin/addTagSlugDriverLabels.ts
 extensions/tags/js/src/common/models/Tag.ts
 extensions/tags/js/src/common/index.ts
 extensions/tags/js/src/common/extend.ts
@@ -1129,6 +1142,7 @@ extensions/tags/js/dist-typings/admin/admin.d.ts
 extensions/tags/js/dist-typings/admin/addTagsHomePageOption.d.ts
 extensions/tags/js/dist-typings/admin/addTagSelectionSettingComponent.d.ts
 extensions/tags/js/dist-typings/admin/addTagChangePermission.d.ts
+extensions/tags/js/dist-typings/admin/addTagSlugDriverLabels.d.ts
 extensions/tags/js/dist-typings/admin/components/TagsPage.d.ts
 extensions/tags/js/dist-typings/admin/components/SelectTagsSettingComponent.d.ts
 extensions/tags/js/dist-typings/admin/components/EditTagModal.d.ts
@@ -1579,8 +1593,11 @@ extensions/gdpr/src/Extend/UserData.php
 extensions/gdpr/src/Jobs/ErasureJob.php
 extensions/gdpr/src/Jobs/GdprJob.php
 extensions/gdpr/src/Jobs/ExportJob.php
+extensions/gdpr/src/Events/ErasureRequested.php
 extensions/gdpr/src/Events/Exporting.php
+extensions/gdpr/src/Events/ErasureCancelled.php
 extensions/gdpr/src/Events/Erasing.php
+extensions/gdpr/src/Events/ErasureConfirmed.php
 extensions/gdpr/src/Events/Erased.php
 extensions/gdpr/src/Events/Exported.php
 extensions/gdpr/src/Notifications/ErasureCompletedBlueprint.php
@@ -2430,6 +2447,7 @@ framework/core/src/Http/Middleware/CheckCsrfToken.php
 framework/core/src/Http/Middleware/InjectActorReference.php
 framework/core/src/Http/Middleware/ProcessIp.php
 framework/core/src/Http/RequestUtil.php
+framework/core/src/Http/BatchSlugDriverInterface.php
 framework/core/src/Http/Rememberer.php
 framework/core/src/Http/RouteHandlerFactory.php
 framework/core/src/Http/Access/ScopeAccessTokenVisibility.php
