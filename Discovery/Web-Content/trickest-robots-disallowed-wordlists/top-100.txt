@@ -1538,6 +1538,7 @@ feeds
 feeds/TechNet/fr-fr/screenshot/screenshot%20surface.jpg
 feeds/videos.xml
 fetch
+fi/web
 file
 file_download
 file_download.php
@@ -1799,9 +1800,9 @@ hp/video
 hpc/*/supported-applications.aspx?
 hpm
 hpmob
-http://instagram.com/robots.txt
-http://ncbi.nlm.nih.gov/robots.txt
+http://archive.org/robots.txt
 http://s3.amazonaws.com/robots.txt
+http://w3.org/robots.txt
 http://web.archive.org/robots.txt
 hub?category=
 hz/contact-us/ajax/initiate-trusted-contact
@@ -3479,7 +3480,7 @@ wiki/Wikipedia%3AVandalismi_in_corso
 wiki/Wikipedia%3AVandalismusmeldung
 wiki/Wikipedia%3AVandalismusmeldung%2F
 wiki/Wikipedia%3AVermittlungsausschuss
-wiki/Wikipedia%3AVermittlungsausschuss%2F
+wiki/Wikipedia%3AVermittlungsausschuss%2Fhttp://m.youtube.com/robots.txt
 wiki/Wikipedia%3AVotes_for_deletion
 wiki/Wikipedia%3AWikiProject_Deletion_sorting
 wiki/Wikipedia%3AWikiProject_Spam
