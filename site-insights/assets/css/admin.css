@@ -1,0 +1,163 @@
+/* Site Insights admin dashboard */
+
+.si-wrap {
+	max-width: 1200px;
+}
+
+.si-range {
+	margin: 12px 0 4px;
+}
+
+/* Headline cards */
+.si-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 16px;
+	margin: 16px 0;
+}
+
+.si-card {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	padding: 16px 20px;
+	display: flex;
+	flex-direction: column;
+}
+
+.si-card-value {
+	font-size: 28px;
+	font-weight: 600;
+	line-height: 1.2;
+	color: #1d2327;
+}
+
+.si-card-label {
+	margin-top: 4px;
+	color: #646970;
+}
+
+/* Panels */
+.si-panel {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	padding: 16px 20px;
+	margin: 0 0 16px;
+}
+
+.si-panel h2 {
+	margin: 0 0 12px;
+	font-size: 14px;
+}
+
+.si-columns {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+	gap: 16px;
+	align-items: start;
+}
+
+@media (max-width: 960px) {
+	.si-columns {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Tables */
+.si-table .si-num {
+	text-align: right;
+	white-space: nowrap;
+	width: 1%;
+}
+
+.si-truncate {
+	max-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.si-empty {
+	color: #646970;
+	font-style: italic;
+}
+
+/* Channel bars */
+.si-bar-cell {
+	position: relative;
+	min-width: 160px;
+}
+
+.si-bar {
+	position: absolute;
+	top: 4px;
+	bottom: 4px;
+	left: 0;
+	background: #c5d9f1;
+	border-radius: 3px;
+	z-index: 0;
+}
+
+.si-bar-label {
+	position: relative;
+	z-index: 1;
+	padding-left: 6px;
+}
+
+/* Referrer type badges */
+.si-badge {
+	display: inline-block;
+	margin-left: 6px;
+	padding: 1px 7px;
+	border-radius: 10px;
+	font-size: 11px;
+	background: #f0f0f1;
+	color: #50575e;
+	text-transform: capitalize;
+}
+
+.si-badge-search {
+	background: #d5e8d4;
+	color: #1e4620;
+}
+
+.si-badge-social {
+	background: #dae8fc;
+	color: #1f3864;
+}
+
+.si-badge-direct {
+	background: #f0f0f1;
+}
+
+.si-badge-other {
+	background: #ffe6cc;
+	color: #7f4f24;
+}
+
+/* Chart */
+.si-chart {
+	display: block;
+	width: 100%;
+	height: 160px;
+}
+
+.si-chart-area {
+	fill: #c5d9f1;
+	opacity: 0.6;
+}
+
+.si-chart-line {
+	stroke: #2271b1;
+	stroke-width: 2;
+	vector-effect: non-scaling-stroke;
+}
+
+.si-chart-labels {
+	display: flex;
+	justify-content: space-between;
+	color: #646970;
+	font-size: 12px;
+	margin-top: 4px;
+}
