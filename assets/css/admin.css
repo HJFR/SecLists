@@ -1,0 +1,114 @@
+/* Simple Site Analytics — admin dashboard. */
+
+.ssa-wrap {
+	max-width: 1200px;
+}
+
+.ssa-range {
+	margin: 8px 0 16px;
+}
+
+/* Summary cards */
+.ssa-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 16px;
+	margin: 16px 0;
+	clear: both;
+}
+
+.ssa-card {
+	background: #fcfcfb;
+	border: 1px solid rgba(11, 11, 11, 0.1);
+	border-radius: 8px;
+	padding: 16px 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.ssa-card-label {
+	color: #52514e;
+	font-size: 12px;
+}
+
+.ssa-card-value {
+	color: #0b0b0b;
+	font-size: 28px;
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+/* Panels */
+.ssa-panel {
+	background: #fcfcfb;
+	border: 1px solid rgba(11, 11, 11, 0.1);
+	border-radius: 8px;
+	padding: 16px 20px;
+	margin: 0 0 16px;
+}
+
+.ssa-panel h2 {
+	margin: 0 0 12px;
+	font-size: 14px;
+}
+
+.ssa-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+	gap: 16px;
+}
+
+.ssa-panel-wide {
+	grid-column: 1 / -1;
+}
+
+/* Chart */
+.ssa-chart {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+.ssa-chart .ssa-bar {
+	fill: #2a78d6;
+}
+
+.ssa-chart .ssa-bar:hover {
+	fill: #1c5cab;
+}
+
+.ssa-chart .ssa-grid {
+	stroke: #e1e0d9;
+	stroke-width: 1;
+}
+
+.ssa-chart .ssa-baseline {
+	stroke: #c3c2b7;
+	stroke-width: 1;
+}
+
+.ssa-chart .ssa-tick {
+	fill: #898781;
+	font-size: 10px;
+	font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+	font-variant-numeric: tabular-nums;
+}
+
+/* Tables */
+.ssa-table {
+	border: none;
+	box-shadow: none;
+}
+
+.ssa-table .ssa-num {
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+	width: 90px;
+}
+
+.ssa-empty {
+	color: #52514e;
+	font-style: italic;
+	margin: 4px 0;
+}
