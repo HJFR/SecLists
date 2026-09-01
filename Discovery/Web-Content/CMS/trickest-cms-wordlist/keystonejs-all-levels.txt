@@ -2,16 +2,10 @@ CONTRIBUTING.md
 pnpm-workspace.yaml
 .oxlintrc.json
 SECURITY.md
-.changeset/major-lies-check.md
-major-lies-check.md
 .changeset/README.md
 README.md
-.changeset/old-buttons-wave.md
-old-buttons-wave.md
 .changeset/contributors.json
 contributors.json
-.changeset/slimy-eggs-play.md
-slimy-eggs-play.md
 .changeset/config.json
 config.json
 .prettierignore
