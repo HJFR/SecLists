@@ -289,6 +289,7 @@ packages/Webkul/Shop/tests/Fixtures/ImageCache/SquareProductCard.php
 packages/Webkul/Shop/tests/Fixtures/ImageCache/CategoryCard.php
 packages/Webkul/Shop/tests/Fixtures/ImageCache/ProductCard.php
 packages/Webkul/Shop/tests/ShopTestCase.php
+packages/Webkul/Shop/tests/Feature/ImageCacheResponseTest.php
 packages/Webkul/Shop/tests/Feature/CategoryImageTemplateTest.php
 packages/Webkul/Shop/tests/Feature/ProductImageTemplateTest.php
 packages/Webkul/Shop/tests/Feature/ImageCacheTemplateTest.php
@@ -1219,7 +1220,11 @@ packages/Webkul/Checkout/src/Providers/CheckoutServiceProvider.php
 packages/Webkul/Checkout/src/Providers/EventServiceProvider.php
 packages/Webkul/Checkout/src/Providers/ModuleServiceProvider.php
 packages/Webkul/Checkout/composer.json
+packages/Webkul/Stripe/tests/Fixtures/FakeStripeHttpClient.php
+packages/Webkul/Stripe/tests/Unit/StripeApiTest.php
 packages/Webkul/Stripe/tests/Unit/StripePaymentTest.php
+packages/Webkul/Stripe/tests/Feature/StripeCheckoutTest.php
+packages/Webkul/Stripe/tests/Feature/StripeWebhookTest.php
 packages/Webkul/Stripe/tests/Feature/StripePaymentTest.php
 packages/Webkul/Stripe/tests/StripeTestCase.php
 packages/Webkul/Stripe/src/Config/payment-methods.php
@@ -2229,6 +2234,7 @@ packages/Webkul/Admin/tests/Feature/Catalog/Products/ChannelWithoutAdminLocaleTe
 packages/Webkul/Admin/tests/Feature/Catalog/Products/ProductBaseImageTest.php
 packages/Webkul/Admin/tests/Feature/Catalog/Products/ProductVideoSeoTest.php
 packages/Webkul/Admin/tests/Feature/Catalog/Products/ProductTest.php
+packages/Webkul/Admin/tests/Feature/Catalog/Products/CustomizableOptionTest.php
 packages/Webkul/Admin/tests/Feature/Catalog/Products/Types/GroupedTest.php
 packages/Webkul/Admin/tests/Feature/Catalog/Products/Types/ConfigurableElasticSearchTest.php
 packages/Webkul/Admin/tests/Feature/Catalog/Products/Types/BundleTest.php
