@@ -169,6 +169,8 @@ sider.yml
 .coderabbit.yml
 .editorconfig
 TRADEMARK_POLICY.md
+.oss-scanner/Dockerfile
+.oss-scanner/threat_model.md
 .eslintrc
 sponsors.md
 erpnext/selling/number_card/sales_orders_to_deliver/sales_orders_to_deliver.json
@@ -2574,8 +2576,11 @@ erpnext/accounts/report/profitability_analysis/profitability_analysis.html
 erpnext/accounts/report/profitability_analysis/test_profitability_analysis.py
 erpnext/accounts/report/profitability_analysis/profitability_analysis.py
 erpnext/accounts/report/profitability_analysis/profitability_analysis.json
+erpnext/accounts/report/sales_partners_commission/sales_partners_commission.js
 erpnext/accounts/report/sales_partners_commission/__init__.py
 erpnext/accounts/report/sales_partners_commission/sales_partners_commission.json
+erpnext/accounts/report/sales_partners_commission/test_sales_partners_commission.py
+erpnext/accounts/report/sales_partners_commission/sales_partners_commission.py
 erpnext/accounts/report/calculated_discount_mismatch/calculated_discount_mismatch.js
 erpnext/accounts/report/calculated_discount_mismatch/__init__.py
 erpnext/accounts/report/calculated_discount_mismatch/calculated_discount_mismatch.py
@@ -2694,6 +2699,7 @@ erpnext/accounts/report/delivered_items_to_be_billed/delivered_items_to_be_bille
 erpnext/accounts/report/delivered_items_to_be_billed/delivered_items_to_be_billed.py
 erpnext/accounts/report/tds_computation_summary/tds_computation_summary.json
 erpnext/accounts/report/tds_computation_summary/__init__.py
+erpnext/accounts/report/tds_computation_summary/test_tds_computation_summary.py
 erpnext/accounts/report/tds_computation_summary/tds_computation_summary.py
 erpnext/accounts/report/tds_computation_summary/tds_computation_summary.js
 erpnext/accounts/report/cash_flow/__init__.py
@@ -3043,6 +3049,7 @@ erpnext/accounts/doctype/account/chart_of_accounts/verified/ca_plan_comptable_po
 erpnext/accounts/doctype/account/chart_of_accounts/verified/be_minimum_genormaliseerd_rekeningstelsel_ondernemingen.json
 erpnext/accounts/doctype/account/chart_of_accounts/verified/be_plan_comptable_minimum_normalise_entreprises.json
 erpnext/accounts/doctype/account/chart_of_accounts/verified/ga_plan_comptable.json
+erpnext/accounts/doctype/account/chart_of_accounts/verified/us_chart_of_accounts.json
 erpnext/accounts/doctype/account/chart_of_accounts/verified/el_salvador_standard.json
 erpnext/accounts/doctype/account/chart_of_accounts/verified/in_standard_chart_of_accounts.json
 erpnext/accounts/doctype/account/chart_of_accounts/verified/id_chart_of_accounts.json
@@ -4008,6 +4015,7 @@ erpnext/patches/v16_0/migrate_account_freezing_settings_to_company.py
 erpnext/patches/v16_0/__init__.py
 erpnext/patches/v16_0/merge_repost_settings_to_accounts_settings.py
 erpnext/patches/v16_0/create_shop_floor_roles.py
+erpnext/patches/v16_0/set_stock_value_in_stock_closing_balance.py
 erpnext/patches/v16_0/remove_all_role_from_payment_terms_template.py
 erpnext/patches/v16_0/add_new_stock_entry_types.py
 erpnext/patches/v16_0/rename_italy_customer_name_fields.py
@@ -4019,6 +4027,7 @@ erpnext/patches/v16_0/rename_ar_ap_ageing_filter.py
 erpnext/patches/v16_0/make_workstation_operating_components.py
 erpnext/patches/v16_0/move_sub_assembly_rate_setting_to_bom_item.py
 erpnext/patches/v16_0/crm_settings_handle_allowed_users_for_frappe_crm.py
+erpnext/patches/v16_0/reset_fifo_queue_in_stock_closing_balance.py
 erpnext/patches/v16_0/update_currency_exchange_settings_for_frankfurter.py
 erpnext/patches/v16_0/submit_existing_product_bundles.py
 erpnext/patches/v16_0/recalculate_holiday_list_totals.py
@@ -4033,6 +4042,7 @@ erpnext/patches/v16_0/set_default_letter_head_for_doctype_and_report.py
 erpnext/patches/v16_0/set_user_on_timesheets.py
 erpnext/patches/v16_0/add_portal_redirects.py
 erpnext/patches/v16_0/depends_on_inv_dimensions.py
+erpnext/patches/v16_0/remove_invalid_fields_from_copy_fields_to_variants.py
 erpnext/patches/v16_0/convert_commission_rate_to_percent.py
 erpnext/patches/v16_0/recalculate_bins_for_production_plan_items.py
 erpnext/patches/v16_0/set_not_applicable_on_german_item_tax_templates.py
@@ -4046,6 +4056,7 @@ erpnext/patches/v16_0/uom_category.py
 erpnext/patches/v16_0/set_posting_datetime_for_sabb_and_drop_indexes.py
 erpnext/patches/v16_0/set_ordered_qty_in_quotation_item.py
 erpnext/patches/v16_0/rename_subscription_billing_period_fields.py
+erpnext/patches/v16_0/mirror_warehouse_stock_manager_perms.py
 erpnext/patches/v16_0/update_corrected_cancelled_status.py
 erpnext/patches/v16_0/remove_payables_receivables_workspace.py
 erpnext/patches/v16_0/add_voucher_index_to_repost_item_valuation.py
@@ -4077,6 +4088,7 @@ erpnext/patches/v16_0/update_company_custom_field_in_bin.py
 erpnext/patches/v16_0/fix_subcontracting_titles.py
 erpnext/patches/v16_0/migrate_subscription_generate_invoice_at.py
 erpnext/patches/v16_0/access_control_for_project_users.py
+erpnext/patches/v16_0/disable_add_to_transit_on_standard_stock_entry_types.py
 erpnext/patches/v16_0/enable_serial_no_wise_valuation.py
 erpnext/patches/v16_0/set_stock_uom_in_job_card.py
 erpnext/patches/v16_0/fix_titles.py
@@ -4089,7 +4101,9 @@ erpnext/patches/v16_0/backfill_repost_accounting_ledger_status.py
 erpnext/patches/v16_0/update_account_categories_for_existing_accounts.py
 erpnext/patches/v16_0/recalculate_returned_delivery_note_billing_status.py
 erpnext/patches/v16_0/drop_redundant_serial_no_index_from_sabb.py
+erpnext/patches/v16_0/fix_ifrs_cash_flow_template_formulas.py
 erpnext/patches/v16_0/disable_add_total_row_in_trends_reports.py
+erpnext/patches/v16_0/unhide_item_barcode_fields.py
 erpnext/patches/v16_0/set_post_change_gl_entries_on_pos_settings.py
 erpnext/patches/v16_0/recalculate_mixed_purchase_receipt_billing_status.py
 erpnext/patches/v16_0/create_accounting_dimensions_in_landed_cost_taxes_and_charges.py
@@ -4622,6 +4636,7 @@ erpnext/regional/report/irs_1099/irs_1099.json
 erpnext/regional/report/electronic_invoice_register/__init__.py
 erpnext/regional/report/electronic_invoice_register/electronic_invoice_register.py
 erpnext/regional/report/electronic_invoice_register/electronic_invoice_register.js
+erpnext/regional/report/electronic_invoice_register/test_electronic_invoice_register.py
 erpnext/regional/report/electronic_invoice_register/electronic_invoice_register.json
 erpnext/regional/doctype/__init__.py
 erpnext/regional/doctype/lower_deduction_certificate/__init__.py

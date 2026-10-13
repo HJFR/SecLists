@@ -99,6 +99,7 @@ database/migrations/2021_12_27_151849_change_supplier_address_length.php
 database/migrations/2016_12_19_133936_extend_phone_lengths_in_supplier_and_elsewhere.php
 database/migrations/2026_05_18_094309_add_maintenance_types_and_tracking_fields.php
 database/migrations/2021_02_05_172502_add_provider_to_oauth_table.php
+database/migrations/2026_10_07_220000_soft_delete_calendar_events_for_trashed_sources.php
 database/migrations/2023_01_23_232933_add_vip_to_users.php
 database/migrations/2025_02_10_230155_add_notes_to_locations_companies_categories_manufacturers_groups.php
 database/migrations/2015_10_12_192706_add_brand_to_settings.php
@@ -117,6 +118,7 @@ database/migrations/2013_11_27_062510_add_note_to_asset_logs_table.php
 database/migrations/2015_10_22_003314_fix_defaults_accessories.php
 database/migrations/2019_06_12_184327_rename_groups_table.php
 database/migrations/2023_04_12_135822_add_supplier_to_components.php
+database/migrations/2026_10_08_180859_rename_mosyle_token_credential_to_access_token.php
 database/migrations/2023_09_13_200913_fix_asset_model_min_qty_nullability.php
 database/migrations/2020_10_22_233743_move_accessory_checkout_note_to_join_table.php
 database/migrations/2015_11_05_061115_add_company_id_to_consumables_table.php
@@ -544,6 +546,7 @@ database/migrations/2023_12_14_032522_add_remote_ip_and_action_source_to_action_
 database/migrations/2012_12_06_225988_migration_cartalyst_sentry_install_throttle.php
 database/migrations/2015_11_06_100045_add_company_id_to_users_table.php
 database/migrations/2019_04_06_205355_add_setting_allow_user_skin.php
+database/migrations/2026_03_23_184904_create_custom_labels_table.php
 database/migrations/2025_03_06_152922_copy_created_at_to_action_date_in_action_logs.php
 database/migrations/2026_08_03_142000_backfill_orders_from_inventory_tables.php
 database/migrations/2013_11_15_112701_add_user_id_to_manufacturers.php
@@ -631,6 +634,7 @@ docker/000-default.conf
 Dockerfile
 dev.docker-compose.yml
 .env.example
+tests/Feature/Components/ComponentForceDeletedImageHookTest.php
 tests/Feature/Components/Ui/ComponentIndexTest.php
 tests/Feature/Components/Ui/CloneComponentTest.php
 tests/Feature/Components/Ui/ComponentCheckoutRequestingUserTest.php
@@ -658,6 +662,7 @@ tests/Feature/Fmcs/FmcsCompanyRuleWiringTest.php
 tests/Feature/Fmcs/LocationScopingSettingTest.php
 tests/Feature/Assets/Fmcs/CrossCompanyAuditAttemptTest.php
 tests/Feature/Assets/AssetObserverSyncAdapterCleanupTest.php
+tests/Feature/Assets/AssetForceDeletedImageHookTest.php
 tests/Feature/Assets/AssetObserverOrderTest.php
 tests/Feature/Assets/Ui/BulkAuditSelectedAssetsSubmissionTest.php
 tests/Feature/Assets/Ui/ForceCheckinAssetTest.php
@@ -743,6 +748,7 @@ tests/Feature/Manufacturers/Ui/DeleteManufacturersTest.php
 tests/Feature/Manufacturers/Api/UpdateManufacturersTest.php
 tests/Feature/Manufacturers/Api/CreateManufacturersTest.php
 tests/Feature/Manufacturers/Api/DeleteManufacturersTest.php
+tests/Feature/Manufacturers/ManufacturerForceDeletedImageHookTest.php
 tests/Feature/Helpers/CheckLowInventoryTest.php
 tests/Feature/Authentication/TwoFactorRateLimitTest.php
 tests/Feature/Authentication/PersonalAccessTokenTwoFactorGuardTest.php
@@ -752,12 +758,14 @@ tests/Feature/Authentication/LoginBackUrlSanitizationTest.php
 tests/Feature/Authentication/EnforceApiTwoFactorEnrollmentTest.php
 tests/Feature/Authentication/SamlRelayStateSanitizationTest.php
 tests/Feature/Authentication/LoginTest.php
+tests/Feature/Authentication/RemoteUserHeaderSpoofingTest.php
 tests/Feature/Authentication/OidcApiAuthTest.php
 tests/Feature/Suppliers/Ui/IndexSuppliersTest.php
 tests/Feature/Suppliers/Ui/UpdateSupplierTest.php
 tests/Feature/Suppliers/Ui/BulkDeleteSuppliersTest.php
 tests/Feature/Suppliers/Ui/CreateSupplierTest.php
 tests/Feature/Suppliers/Ui/ShowSupplierTest.php
+tests/Feature/Suppliers/SupplierForceDeletedImageHookTest.php
 tests/Feature/Suppliers/Api/DeleteSuppliersTest.php
 tests/Feature/DashboardWidgetPayloadShapeTest.php
 tests/Feature/ActionLogs/ActionlogCompanyIdTest.php
@@ -774,6 +782,8 @@ tests/Feature/SyncAdapters/Fleet/FleetSyncNowTest.php
 tests/Feature/SyncAdapters/Fleet/FleetSettingsPageTest.php
 tests/Feature/SyncAdapters/Fleet/FleetAdapterTest.php
 tests/Feature/SyncAdapters/BooleanExtraToCheckboxTest.php
+tests/Feature/SyncAdapters/MosyleBusiness/MosyleBusinessAdapterTest.php
+tests/Feature/SyncAdapters/MosyleBusiness/MosyleBusinessPushTest.php
 tests/Feature/SyncAdapters/ExtraFieldMappingTest.php
 tests/Feature/SyncAdapters/MerakiSystemsManager/MerakiSystemsManagerAdapterTest.php
 tests/Feature/SyncAdapters/CustomHttp/CustomHttpAdapterTest.php
@@ -844,6 +854,8 @@ tests/Feature/Console/Commands/PurgeCompaniesTest.php
 tests/Feature/Console/Commands/SendUpcomingAuditReportTest.php
 tests/Feature/Console/Commands/PurgeEulaPDFTest.php
 tests/Feature/Console/Commands/PurgeTest.php
+tests/Feature/Console/Commands/AuditFileStorageTest.php
+tests/Feature/Console/RestoreFromBackupPruningTest.php
 tests/Feature/Console/BulkDeleteTest.php
 tests/Feature/Console/FixupAssignedToAssignedTypeTest.php
 tests/Feature/Console/CleanOldCheckoutRequestsTest.php
@@ -851,6 +863,7 @@ tests/Feature/Console/CleanUnreferencedCustomFieldsTest.php
 tests/Feature/Console/RestoreFromBackupBinaryPickerTest.php
 tests/Feature/Console/SendAcceptanceReminderTest.php
 tests/Feature/Console/ValidateAssetsTest.php
+tests/Feature/Console/RegenerateAcceptancesTest.php
 tests/Feature/Console/TestLocationsFmcsTest.php
 tests/Feature/Console/MergeUsersTest.php
 tests/Feature/Console/CleanIncorrectCheckoutAcceptancesTest.php
@@ -875,6 +888,7 @@ tests/Feature/Blade/InfoPanelNotesTest.php
 tests/Feature/Blade/CheckboxRowTest.php
 tests/Feature/Scim/CreateMultipleGroupsTest.php
 tests/Feature/Scim/CreateGroupWithMembersTest.php
+tests/Feature/Scim/ScimActivationGuardTest.php
 tests/Feature/Scim/PatchGroupMembersTest.php
 tests/Feature/Scim/MeEndpointTest.php
 tests/Feature/Scim/ScimGroupMembershipLoggingTest.php
@@ -914,6 +928,7 @@ tests/Feature/Categories/Api/CreateCategoriesTest.php
 tests/Feature/Categories/Api/DeleteCategoriesTest.php
 tests/Feature/Categories/Api/IndexCategoriesTest.php
 tests/Feature/Categories/Api/UpdateCategoriesTest.php
+tests/Feature/Categories/CategoryForceDeletedImageHookTest.php
 tests/Feature/CheckoutAcceptances/AcceptanceFinalizationRaceTest.php
 tests/Feature/CheckoutAcceptances/Ui/AccessoryAcceptanceTest.php
 tests/Feature/CheckoutAcceptances/Ui/AssetAcceptanceTest.php
@@ -944,6 +959,7 @@ tests/Feature/Consumables/Ui/DeleteConsumableTest.php
 tests/Feature/Consumables/Ui/CreateConsumableTest.php
 tests/Feature/Consumables/Ui/ConsumableCheckoutRequestContextTest.php
 tests/Feature/Consumables/ConsumableObserverOrderTest.php
+tests/Feature/Consumables/ConsumableForceDeletedImageHookTest.php
 tests/Feature/Consumables/Api/AdjustConsumableQuantityApiTest.php
 tests/Feature/Consumables/Api/ConsumableIndexTest.php
 tests/Feature/Consumables/Api/ConsumablesForSelectListTest.php
@@ -991,6 +1007,7 @@ tests/Feature/Licenses/Api/UpdateLicenseTest.php
 tests/Feature/Licenses/Api/LicenseCheckoutCheckinTest.php
 tests/Feature/Notes/CreateNotesTest.php
 tests/Feature/Settings/PostRestoreDataLossGuardsTest.php
+tests/Feature/Settings/CustomLabelCrudTest.php
 tests/Feature/Settings/LdapSettingsTest.php
 tests/Feature/Settings/ShowSetUpPageTest.php
 tests/Feature/Settings/AlertsSettingTest.php
@@ -1013,6 +1030,7 @@ tests/Feature/Uploads/Base64TempFileLeakTest.php
 tests/Feature/CheckoutRequests/FulfillmentHookTest.php
 tests/Feature/CheckoutRequests/StateMachineTest.php
 tests/Feature/History/Api/IndexHistoryTest.php
+tests/Feature/Departments/DepartmentForceDeletedImageHookTest.php
 tests/Feature/Departments/Ui/UpdateDepartmentsTest.php
 tests/Feature/Departments/Ui/IndexDepartmentsTest.php
 tests/Feature/Departments/Ui/CreateDepartmentsTest.php
@@ -1030,6 +1048,7 @@ tests/Feature/ApiRateLimitTest.php
 tests/Feature/FileUploads/SvgUploadSanitizationTest.php
 tests/Feature/FileUploads/UploadFileValidationTest.php
 tests/Feature/FileUploads/UploadDeleteStorageFailureTest.php
+tests/Feature/Locations/LocationForceDeletedImageHookTest.php
 tests/Feature/Locations/Ui/CreateLocationsTest.php
 tests/Feature/Locations/Ui/LocationParentCompanyTest.php
 tests/Feature/Locations/Ui/LocationNameUniquenessTest.php
@@ -1119,6 +1138,7 @@ tests/Feature/Livewire/AlertMenuTest.php
 tests/Feature/Livewire/OauthClientsAuthorizationTest.php
 tests/Feature/Livewire/LocationScopeCheckAuthorizationTest.php
 tests/Feature/Livewire/CategoryEditFormTest.php
+tests/Feature/AssetModels/AssetModelForceDeletedImageHookTest.php
 tests/Feature/AssetModels/Ui/ShowAssetModelsTest.php
 tests/Feature/AssetModels/Ui/RestoreAssetModelTest.php
 tests/Feature/AssetModels/Ui/BulkDeleteAssetModelsTest.php
@@ -1142,6 +1162,7 @@ tests/Feature/AssetModels/Api/IndexAssetModelsTest.php
 tests/Feature/AssetModels/Api/AssetModelPaginationTest.php
 tests/Feature/DashboardTest.php
 tests/Feature/CustomFieldsets/Api/DeleteCustomFieldsetsTest.php
+tests/Feature/Accessories/AccessoryForceDeletedImageHookTest.php
 tests/Feature/Accessories/Ui/AccessoryCheckoutRequestContextTest.php
 tests/Feature/Accessories/Ui/CheckoutAccessoryTest.php
 tests/Feature/Accessories/Ui/AdjustAccessoryQuantityTest.php
@@ -1181,6 +1202,7 @@ tests/Feature/Companies/Ui/CreateCompaniesTest.php
 tests/Feature/Companies/Ui/CompanyIndexTest.php
 tests/Feature/Companies/Ui/BulkDeleteCompaniesTest.php
 tests/Feature/Companies/CompanyNameUniquenessTest.php
+tests/Feature/Companies/CompanyForceDeletedImageHookTest.php
 tests/Feature/Companies/Api/DeleteCompaniesTest.php
 tests/Feature/Companies/Api/IndexCompaniesTest.php
 tests/Feature/Companies/Api/CreateCompaniesTest.php
@@ -1333,6 +1355,7 @@ tests/Unit/Models/GroupPivotCleanupTest.php
 tests/Unit/Models/SettingCustomCssTest.php
 tests/Unit/SnipeModelTest.php
 tests/Unit/DepreciationTest.php
+tests/Unit/Enums/FileStorageTest.php
 tests/Unit/CategoryTest.php
 tests/Unit/MaintenanceQueryBuilderTest.php
 tests/Unit/Users/SyncCompaniesPreservingInvisibleTest.php
@@ -1465,6 +1488,7 @@ resources/views/notifications/markdown/report-expiring-assets.blade.php
 resources/views/notifications/markdown/asset-acceptance.blade.php
 resources/views/notifications/markdown/report-low-inventory.blade.php
 resources/views/notifications/markdown/upcoming-audits.blade.php
+resources/views/notifications/markdown/acceptance-re-request.blade.php
 resources/views/notifications/markdown/user-inventory.blade.php
 resources/views/notifications/markdown/report-expiring-licenses.blade.php
 resources/views/notifications/markdown/asset-reminder.blade.php
@@ -1511,6 +1535,7 @@ resources/views/blade/table/bulk-licenses.blade.php
 resources/views/blade/table/bulk-checkoutrequests.blade.php
 resources/views/blade/table/components.blade.php
 resources/views/blade/table/companies.blade.php
+resources/views/blade/table/labels.blade.php
 resources/views/blade/table/files.blade.php
 resources/views/blade/table/models.blade.php
 resources/views/blade/table/bulk-actions.blade.php
@@ -1689,6 +1714,8 @@ resources/views/livewire/location-scope-check.blade.php
 resources/views/livewire/oauth-clients.blade.php
 resources/views/livewire/custom-field-set-default-values-for-model.blade.php
 resources/views/livewire/checkout-target-panel.blade.php
+resources/views/livewire/labels/import-label.blade.php
+resources/views/livewire/labels/new-label-setup.blade.php
 resources/views/livewire/asset-additional-tags.blade.php
 resources/views/livewire/needs-attention.blade.php
 resources/views/livewire/report-template-select.blade.php
@@ -1795,6 +1822,7 @@ resources/views/vendor/pagination/simple-default.blade.php
 resources/views/suppliers/index.blade.php
 resources/views/suppliers/edit.blade.php
 resources/views/suppliers/view.blade.php
+resources/views/modals/new-label-setup.blade.php
 resources/views/maintenances/index.blade.php
 resources/views/maintenances/edit.blade.php
 resources/views/maintenances/view.blade.php
@@ -1805,6 +1833,7 @@ resources/views/components/checkout.blade.php
 resources/views/components/view.blade.php
 resources/views/settings/general.blade.php
 resources/views/settings/google.blade.php
+resources/views/settings/label-edit.blade.php
 resources/views/settings/branding.blade.php
 resources/views/settings/backups.blade.php
 resources/views/settings/ldap.blade.php
@@ -1831,6 +1860,7 @@ resources/views/partials/asset-bulk-actions.blade.php
 resources/views/partials/impersonation-banner.blade.php
 resources/views/partials/confetti-js.blade.php
 resources/views/partials/label2-preview.blade.php
+resources/views/partials/custom-label-preview.blade.php
 resources/views/partials/theme-mode-toggle.blade.php
 resources/views/partials/locations-bulk-actions.blade.php
 resources/views/partials/users-bulk-actions.blade.php
@@ -1873,6 +1903,8 @@ resources/views/partials/forms/edit/consumable-select.blade.php
 resources/views/partials/forms/edit/email.blade.php
 resources/views/partials/forms/demo-mode.blade.php
 resources/views/partials/forms/checkout-selector.blade.php
+resources/views/partials/label-editor-section.blade.php
+resources/views/partials/label-editor-field.blade.php
 resources/views/partials/labels-new-engine.blade.php
 resources/views/partials/label2-field-definitions.blade.php
 resources/views/partials/more-info.blade.php
@@ -2029,6 +2061,7 @@ resources/lang/hi-IN/admin/suppliers/table.php
 resources/lang/hi-IN/admin/suppliers/message.php
 resources/lang/hi-IN/admin/labels/table.php
 resources/lang/hi-IN/admin/labels/message.php
+resources/lang/hi-IN/admin/labels/general.php
 resources/lang/hi-IN/admin/maintenances/table.php
 resources/lang/hi-IN/admin/maintenances/form.php
 resources/lang/hi-IN/admin/maintenances/message.php
@@ -2112,6 +2145,7 @@ resources/lang/pt-BR/admin/suppliers/table.php
 resources/lang/pt-BR/admin/suppliers/message.php
 resources/lang/pt-BR/admin/labels/table.php
 resources/lang/pt-BR/admin/labels/message.php
+resources/lang/pt-BR/admin/labels/general.php
 resources/lang/pt-BR/admin/maintenances/table.php
 resources/lang/pt-BR/admin/maintenances/form.php
 resources/lang/pt-BR/admin/maintenances/message.php
@@ -2195,6 +2229,7 @@ resources/lang/sr-CS/admin/suppliers/table.php
 resources/lang/sr-CS/admin/suppliers/message.php
 resources/lang/sr-CS/admin/labels/table.php
 resources/lang/sr-CS/admin/labels/message.php
+resources/lang/sr-CS/admin/labels/general.php
 resources/lang/sr-CS/admin/maintenances/table.php
 resources/lang/sr-CS/admin/maintenances/form.php
 resources/lang/sr-CS/admin/maintenances/message.php
@@ -2278,6 +2313,7 @@ resources/lang/cy-GB/admin/suppliers/table.php
 resources/lang/cy-GB/admin/suppliers/message.php
 resources/lang/cy-GB/admin/labels/table.php
 resources/lang/cy-GB/admin/labels/message.php
+resources/lang/cy-GB/admin/labels/general.php
 resources/lang/cy-GB/admin/maintenances/table.php
 resources/lang/cy-GB/admin/maintenances/form.php
 resources/lang/cy-GB/admin/maintenances/message.php
@@ -2361,6 +2397,7 @@ resources/lang/en-US/admin/suppliers/table.php
 resources/lang/en-US/admin/suppliers/message.php
 resources/lang/en-US/admin/labels/table.php
 resources/lang/en-US/admin/labels/message.php
+resources/lang/en-US/admin/labels/general.php
 resources/lang/en-US/admin/maintenances/table.php
 resources/lang/en-US/admin/maintenances/form.php
 resources/lang/en-US/admin/maintenances/message.php
@@ -2444,6 +2481,7 @@ resources/lang/chr-US/admin/suppliers/table.php
 resources/lang/chr-US/admin/suppliers/message.php
 resources/lang/chr-US/admin/labels/table.php
 resources/lang/chr-US/admin/labels/message.php
+resources/lang/chr-US/admin/labels/general.php
 resources/lang/chr-US/admin/maintenances/table.php
 resources/lang/chr-US/admin/maintenances/form.php
 resources/lang/chr-US/admin/maintenances/message.php
@@ -2527,6 +2565,7 @@ resources/lang/es-MX/admin/suppliers/table.php
 resources/lang/es-MX/admin/suppliers/message.php
 resources/lang/es-MX/admin/labels/table.php
 resources/lang/es-MX/admin/labels/message.php
+resources/lang/es-MX/admin/labels/general.php
 resources/lang/es-MX/admin/maintenances/table.php
 resources/lang/es-MX/admin/maintenances/form.php
 resources/lang/es-MX/admin/maintenances/message.php
@@ -2610,6 +2649,7 @@ resources/lang/am-ET/admin/suppliers/table.php
 resources/lang/am-ET/admin/suppliers/message.php
 resources/lang/am-ET/admin/labels/table.php
 resources/lang/am-ET/admin/labels/message.php
+resources/lang/am-ET/admin/labels/general.php
 resources/lang/am-ET/admin/maintenances/table.php
 resources/lang/am-ET/admin/maintenances/form.php
 resources/lang/am-ET/admin/maintenances/message.php
@@ -2693,6 +2733,7 @@ resources/lang/fa-IR/admin/suppliers/table.php
 resources/lang/fa-IR/admin/suppliers/message.php
 resources/lang/fa-IR/admin/labels/table.php
 resources/lang/fa-IR/admin/labels/message.php
+resources/lang/fa-IR/admin/labels/general.php
 resources/lang/fa-IR/admin/maintenances/table.php
 resources/lang/fa-IR/admin/maintenances/form.php
 resources/lang/fa-IR/admin/maintenances/message.php
@@ -2776,6 +2817,7 @@ resources/lang/ml-IN/admin/suppliers/table.php
 resources/lang/ml-IN/admin/suppliers/message.php
 resources/lang/ml-IN/admin/labels/table.php
 resources/lang/ml-IN/admin/labels/message.php
+resources/lang/ml-IN/admin/labels/general.php
 resources/lang/ml-IN/admin/maintenances/table.php
 resources/lang/ml-IN/admin/maintenances/form.php
 resources/lang/ml-IN/admin/maintenances/message.php
@@ -2859,6 +2901,7 @@ resources/lang/nl-NL/admin/suppliers/table.php
 resources/lang/nl-NL/admin/suppliers/message.php
 resources/lang/nl-NL/admin/labels/table.php
 resources/lang/nl-NL/admin/labels/message.php
+resources/lang/nl-NL/admin/labels/general.php
 resources/lang/nl-NL/admin/maintenances/table.php
 resources/lang/nl-NL/admin/maintenances/form.php
 resources/lang/nl-NL/admin/maintenances/message.php
@@ -2942,6 +2985,7 @@ resources/lang/sk-SK/admin/suppliers/table.php
 resources/lang/sk-SK/admin/suppliers/message.php
 resources/lang/sk-SK/admin/labels/table.php
 resources/lang/sk-SK/admin/labels/message.php
+resources/lang/sk-SK/admin/labels/general.php
 resources/lang/sk-SK/admin/maintenances/table.php
 resources/lang/sk-SK/admin/maintenances/form.php
 resources/lang/sk-SK/admin/maintenances/message.php
@@ -3025,6 +3069,7 @@ resources/lang/ar-SA/admin/suppliers/table.php
 resources/lang/ar-SA/admin/suppliers/message.php
 resources/lang/ar-SA/admin/labels/table.php
 resources/lang/ar-SA/admin/labels/message.php
+resources/lang/ar-SA/admin/labels/general.php
 resources/lang/ar-SA/admin/maintenances/table.php
 resources/lang/ar-SA/admin/maintenances/form.php
 resources/lang/ar-SA/admin/maintenances/message.php
@@ -3108,6 +3153,7 @@ resources/lang/so-SO/admin/suppliers/table.php
 resources/lang/so-SO/admin/suppliers/message.php
 resources/lang/so-SO/admin/labels/table.php
 resources/lang/so-SO/admin/labels/message.php
+resources/lang/so-SO/admin/labels/general.php
 resources/lang/so-SO/admin/maintenances/table.php
 resources/lang/so-SO/admin/maintenances/form.php
 resources/lang/so-SO/admin/maintenances/message.php
@@ -3191,6 +3237,7 @@ resources/lang/da-DK/admin/suppliers/table.php
 resources/lang/da-DK/admin/suppliers/message.php
 resources/lang/da-DK/admin/labels/table.php
 resources/lang/da-DK/admin/labels/message.php
+resources/lang/da-DK/admin/labels/general.php
 resources/lang/da-DK/admin/maintenances/table.php
 resources/lang/da-DK/admin/maintenances/form.php
 resources/lang/da-DK/admin/maintenances/message.php
@@ -3274,6 +3321,7 @@ resources/lang/uk-UA/admin/suppliers/table.php
 resources/lang/uk-UA/admin/suppliers/message.php
 resources/lang/uk-UA/admin/labels/table.php
 resources/lang/uk-UA/admin/labels/message.php
+resources/lang/uk-UA/admin/labels/general.php
 resources/lang/uk-UA/admin/maintenances/table.php
 resources/lang/uk-UA/admin/maintenances/form.php
 resources/lang/uk-UA/admin/maintenances/message.php
@@ -3357,6 +3405,7 @@ resources/lang/ca-ES/admin/suppliers/table.php
 resources/lang/ca-ES/admin/suppliers/message.php
 resources/lang/ca-ES/admin/labels/table.php
 resources/lang/ca-ES/admin/labels/message.php
+resources/lang/ca-ES/admin/labels/general.php
 resources/lang/ca-ES/admin/maintenances/table.php
 resources/lang/ca-ES/admin/maintenances/form.php
 resources/lang/ca-ES/admin/maintenances/message.php
@@ -3440,6 +3489,7 @@ resources/lang/he-IL/admin/suppliers/table.php
 resources/lang/he-IL/admin/suppliers/message.php
 resources/lang/he-IL/admin/labels/table.php
 resources/lang/he-IL/admin/labels/message.php
+resources/lang/he-IL/admin/labels/general.php
 resources/lang/he-IL/admin/maintenances/table.php
 resources/lang/he-IL/admin/maintenances/form.php
 resources/lang/he-IL/admin/maintenances/message.php
@@ -3523,6 +3573,7 @@ resources/lang/el-GR/admin/suppliers/table.php
 resources/lang/el-GR/admin/suppliers/message.php
 resources/lang/el-GR/admin/labels/table.php
 resources/lang/el-GR/admin/labels/message.php
+resources/lang/el-GR/admin/labels/general.php
 resources/lang/el-GR/admin/maintenances/table.php
 resources/lang/el-GR/admin/maintenances/form.php
 resources/lang/el-GR/admin/maintenances/message.php
@@ -3606,6 +3657,7 @@ resources/lang/id-ID/admin/suppliers/table.php
 resources/lang/id-ID/admin/suppliers/message.php
 resources/lang/id-ID/admin/labels/table.php
 resources/lang/id-ID/admin/labels/message.php
+resources/lang/id-ID/admin/labels/general.php
 resources/lang/id-ID/admin/maintenances/table.php
 resources/lang/id-ID/admin/maintenances/form.php
 resources/lang/id-ID/admin/maintenances/message.php
@@ -3689,6 +3741,7 @@ resources/lang/hy-AM/admin/suppliers/table.php
 resources/lang/hy-AM/admin/suppliers/message.php
 resources/lang/hy-AM/admin/labels/table.php
 resources/lang/hy-AM/admin/labels/message.php
+resources/lang/hy-AM/admin/labels/general.php
 resources/lang/hy-AM/admin/maintenances/table.php
 resources/lang/hy-AM/admin/maintenances/form.php
 resources/lang/hy-AM/admin/maintenances/message.php
@@ -3772,6 +3825,7 @@ resources/lang/ro-RO/admin/suppliers/table.php
 resources/lang/ro-RO/admin/suppliers/message.php
 resources/lang/ro-RO/admin/labels/table.php
 resources/lang/ro-RO/admin/labels/message.php
+resources/lang/ro-RO/admin/labels/general.php
 resources/lang/ro-RO/admin/maintenances/table.php
 resources/lang/ro-RO/admin/maintenances/form.php
 resources/lang/ro-RO/admin/maintenances/message.php
@@ -3855,6 +3909,7 @@ resources/lang/aa-ER/admin/suppliers/table.php
 resources/lang/aa-ER/admin/suppliers/message.php
 resources/lang/aa-ER/admin/labels/table.php
 resources/lang/aa-ER/admin/labels/message.php
+resources/lang/aa-ER/admin/labels/general.php
 resources/lang/aa-ER/admin/maintenances/table.php
 resources/lang/aa-ER/admin/maintenances/form.php
 resources/lang/aa-ER/admin/maintenances/message.php
@@ -3938,6 +3993,7 @@ resources/lang/af-ZA/admin/suppliers/table.php
 resources/lang/af-ZA/admin/suppliers/message.php
 resources/lang/af-ZA/admin/labels/table.php
 resources/lang/af-ZA/admin/labels/message.php
+resources/lang/af-ZA/admin/labels/general.php
 resources/lang/af-ZA/admin/maintenances/table.php
 resources/lang/af-ZA/admin/maintenances/form.php
 resources/lang/af-ZA/admin/maintenances/message.php
@@ -4021,6 +4077,7 @@ resources/lang/tr-TR/admin/suppliers/table.php
 resources/lang/tr-TR/admin/suppliers/message.php
 resources/lang/tr-TR/admin/labels/table.php
 resources/lang/tr-TR/admin/labels/message.php
+resources/lang/tr-TR/admin/labels/general.php
 resources/lang/tr-TR/admin/maintenances/table.php
 resources/lang/tr-TR/admin/maintenances/form.php
 resources/lang/tr-TR/admin/maintenances/message.php
@@ -4104,6 +4161,7 @@ resources/lang/hr-HR/admin/suppliers/table.php
 resources/lang/hr-HR/admin/suppliers/message.php
 resources/lang/hr-HR/admin/labels/table.php
 resources/lang/hr-HR/admin/labels/message.php
+resources/lang/hr-HR/admin/labels/general.php
 resources/lang/hr-HR/admin/maintenances/table.php
 resources/lang/hr-HR/admin/maintenances/form.php
 resources/lang/hr-HR/admin/maintenances/message.php
@@ -4187,6 +4245,7 @@ resources/lang/is-IS/admin/suppliers/table.php
 resources/lang/is-IS/admin/suppliers/message.php
 resources/lang/is-IS/admin/labels/table.php
 resources/lang/is-IS/admin/labels/message.php
+resources/lang/is-IS/admin/labels/general.php
 resources/lang/is-IS/admin/maintenances/table.php
 resources/lang/is-IS/admin/maintenances/form.php
 resources/lang/is-IS/admin/maintenances/message.php
@@ -4270,6 +4329,7 @@ resources/lang/lt-LT/admin/suppliers/table.php
 resources/lang/lt-LT/admin/suppliers/message.php
 resources/lang/lt-LT/admin/labels/table.php
 resources/lang/lt-LT/admin/labels/message.php
+resources/lang/lt-LT/admin/labels/general.php
 resources/lang/lt-LT/admin/maintenances/table.php
 resources/lang/lt-LT/admin/maintenances/form.php
 resources/lang/lt-LT/admin/maintenances/message.php
@@ -4353,6 +4413,7 @@ resources/lang/th-TH/admin/suppliers/table.php
 resources/lang/th-TH/admin/suppliers/message.php
 resources/lang/th-TH/admin/labels/table.php
 resources/lang/th-TH/admin/labels/message.php
+resources/lang/th-TH/admin/labels/general.php
 resources/lang/th-TH/admin/maintenances/table.php
 resources/lang/th-TH/admin/maintenances/form.php
 resources/lang/th-TH/admin/maintenances/message.php
@@ -4436,6 +4497,7 @@ resources/lang/ru-RU/admin/suppliers/table.php
 resources/lang/ru-RU/admin/suppliers/message.php
 resources/lang/ru-RU/admin/labels/table.php
 resources/lang/ru-RU/admin/labels/message.php
+resources/lang/ru-RU/admin/labels/general.php
 resources/lang/ru-RU/admin/maintenances/table.php
 resources/lang/ru-RU/admin/maintenances/form.php
 resources/lang/ru-RU/admin/maintenances/message.php
@@ -4519,6 +4581,7 @@ resources/lang/km-KH/admin/suppliers/table.php
 resources/lang/km-KH/admin/suppliers/message.php
 resources/lang/km-KH/admin/labels/table.php
 resources/lang/km-KH/admin/labels/message.php
+resources/lang/km-KH/admin/labels/general.php
 resources/lang/km-KH/admin/maintenances/table.php
 resources/lang/km-KH/admin/maintenances/form.php
 resources/lang/km-KH/admin/maintenances/message.php
@@ -4602,6 +4665,7 @@ resources/lang/zh-CN/admin/suppliers/table.php
 resources/lang/zh-CN/admin/suppliers/message.php
 resources/lang/zh-CN/admin/labels/table.php
 resources/lang/zh-CN/admin/labels/message.php
+resources/lang/zh-CN/admin/labels/general.php
 resources/lang/zh-CN/admin/maintenances/table.php
 resources/lang/zh-CN/admin/maintenances/form.php
 resources/lang/zh-CN/admin/maintenances/message.php
@@ -4685,6 +4749,7 @@ resources/lang/it-IT/admin/suppliers/table.php
 resources/lang/it-IT/admin/suppliers/message.php
 resources/lang/it-IT/admin/labels/table.php
 resources/lang/it-IT/admin/labels/message.php
+resources/lang/it-IT/admin/labels/general.php
 resources/lang/it-IT/admin/maintenances/table.php
 resources/lang/it-IT/admin/maintenances/form.php
 resources/lang/it-IT/admin/maintenances/message.php
@@ -4768,6 +4833,7 @@ resources/lang/de-if/admin/suppliers/table.php
 resources/lang/de-if/admin/suppliers/message.php
 resources/lang/de-if/admin/labels/table.php
 resources/lang/de-if/admin/labels/message.php
+resources/lang/de-if/admin/labels/general.php
 resources/lang/de-if/admin/maintenances/table.php
 resources/lang/de-if/admin/maintenances/form.php
 resources/lang/de-if/admin/maintenances/message.php
@@ -4851,6 +4917,7 @@ resources/lang/bg-BG/admin/suppliers/table.php
 resources/lang/bg-BG/admin/suppliers/message.php
 resources/lang/bg-BG/admin/labels/table.php
 resources/lang/bg-BG/admin/labels/message.php
+resources/lang/bg-BG/admin/labels/general.php
 resources/lang/bg-BG/admin/maintenances/table.php
 resources/lang/bg-BG/admin/maintenances/form.php
 resources/lang/bg-BG/admin/maintenances/message.php
@@ -4934,6 +5001,7 @@ resources/lang/sl-SI/admin/suppliers/table.php
 resources/lang/sl-SI/admin/suppliers/message.php
 resources/lang/sl-SI/admin/labels/table.php
 resources/lang/sl-SI/admin/labels/message.php
+resources/lang/sl-SI/admin/labels/general.php
 resources/lang/sl-SI/admin/maintenances/table.php
 resources/lang/sl-SI/admin/maintenances/form.php
 resources/lang/sl-SI/admin/maintenances/message.php
@@ -5017,6 +5085,7 @@ resources/lang/zh-HK/admin/suppliers/table.php
 resources/lang/zh-HK/admin/suppliers/message.php
 resources/lang/zh-HK/admin/labels/table.php
 resources/lang/zh-HK/admin/labels/message.php
+resources/lang/zh-HK/admin/labels/general.php
 resources/lang/zh-HK/admin/maintenances/table.php
 resources/lang/zh-HK/admin/maintenances/form.php
 resources/lang/zh-HK/admin/maintenances/message.php
@@ -5100,6 +5169,7 @@ resources/lang/nb-NO/admin/suppliers/table.php
 resources/lang/nb-NO/admin/suppliers/message.php
 resources/lang/nb-NO/admin/labels/table.php
 resources/lang/nb-NO/admin/labels/message.php
+resources/lang/nb-NO/admin/labels/general.php
 resources/lang/nb-NO/admin/maintenances/table.php
 resources/lang/nb-NO/admin/maintenances/form.php
 resources/lang/nb-NO/admin/maintenances/message.php
@@ -5183,6 +5253,7 @@ resources/lang/ja-JP/admin/suppliers/table.php
 resources/lang/ja-JP/admin/suppliers/message.php
 resources/lang/ja-JP/admin/labels/table.php
 resources/lang/ja-JP/admin/labels/message.php
+resources/lang/ja-JP/admin/labels/general.php
 resources/lang/ja-JP/admin/maintenances/table.php
 resources/lang/ja-JP/admin/maintenances/form.php
 resources/lang/ja-JP/admin/maintenances/message.php
@@ -5266,6 +5337,7 @@ resources/lang/pl-PL/admin/suppliers/table.php
 resources/lang/pl-PL/admin/suppliers/message.php
 resources/lang/pl-PL/admin/labels/table.php
 resources/lang/pl-PL/admin/labels/message.php
+resources/lang/pl-PL/admin/labels/general.php
 resources/lang/pl-PL/admin/maintenances/table.php
 resources/lang/pl-PL/admin/maintenances/form.php
 resources/lang/pl-PL/admin/maintenances/message.php
@@ -5349,6 +5421,7 @@ resources/lang/et-EE/admin/suppliers/table.php
 resources/lang/et-EE/admin/suppliers/message.php
 resources/lang/et-EE/admin/labels/table.php
 resources/lang/et-EE/admin/labels/message.php
+resources/lang/et-EE/admin/labels/general.php
 resources/lang/et-EE/admin/maintenances/table.php
 resources/lang/et-EE/admin/maintenances/form.php
 resources/lang/et-EE/admin/maintenances/message.php
@@ -5432,6 +5505,7 @@ resources/lang/es-CO/admin/suppliers/table.php
 resources/lang/es-CO/admin/suppliers/message.php
 resources/lang/es-CO/admin/labels/table.php
 resources/lang/es-CO/admin/labels/message.php
+resources/lang/es-CO/admin/labels/general.php
 resources/lang/es-CO/admin/maintenances/table.php
 resources/lang/es-CO/admin/maintenances/form.php
 resources/lang/es-CO/admin/maintenances/message.php
@@ -5515,6 +5589,7 @@ resources/lang/ur-PK/admin/suppliers/table.php
 resources/lang/ur-PK/admin/suppliers/message.php
 resources/lang/ur-PK/admin/labels/table.php
 resources/lang/ur-PK/admin/labels/message.php
+resources/lang/ur-PK/admin/labels/general.php
 resources/lang/ur-PK/admin/maintenances/table.php
 resources/lang/ur-PK/admin/maintenances/form.php
 resources/lang/ur-PK/admin/maintenances/message.php
@@ -5598,6 +5673,7 @@ resources/lang/si-LK/admin/suppliers/table.php
 resources/lang/si-LK/admin/suppliers/message.php
 resources/lang/si-LK/admin/labels/table.php
 resources/lang/si-LK/admin/labels/message.php
+resources/lang/si-LK/admin/labels/general.php
 resources/lang/si-LK/admin/maintenances/table.php
 resources/lang/si-LK/admin/maintenances/form.php
 resources/lang/si-LK/admin/maintenances/message.php
@@ -5681,6 +5757,7 @@ resources/lang/ne-NP/admin/suppliers/table.php
 resources/lang/ne-NP/admin/suppliers/message.php
 resources/lang/ne-NP/admin/labels/table.php
 resources/lang/ne-NP/admin/labels/message.php
+resources/lang/ne-NP/admin/labels/general.php
 resources/lang/ne-NP/admin/maintenances/table.php
 resources/lang/ne-NP/admin/maintenances/form.php
 resources/lang/ne-NP/admin/maintenances/message.php
@@ -5764,6 +5841,7 @@ resources/lang/iu-NU/admin/suppliers/table.php
 resources/lang/iu-NU/admin/suppliers/message.php
 resources/lang/iu-NU/admin/labels/table.php
 resources/lang/iu-NU/admin/labels/message.php
+resources/lang/iu-NU/admin/labels/general.php
 resources/lang/iu-NU/admin/maintenances/table.php
 resources/lang/iu-NU/admin/maintenances/form.php
 resources/lang/iu-NU/admin/maintenances/message.php
@@ -5847,6 +5925,7 @@ resources/lang/fi-FI/admin/suppliers/table.php
 resources/lang/fi-FI/admin/suppliers/message.php
 resources/lang/fi-FI/admin/labels/table.php
 resources/lang/fi-FI/admin/labels/message.php
+resources/lang/fi-FI/admin/labels/general.php
 resources/lang/fi-FI/admin/maintenances/table.php
 resources/lang/fi-FI/admin/maintenances/form.php
 resources/lang/fi-FI/admin/maintenances/message.php
@@ -5930,6 +6009,7 @@ resources/lang/fr-FR/admin/suppliers/table.php
 resources/lang/fr-FR/admin/suppliers/message.php
 resources/lang/fr-FR/admin/labels/table.php
 resources/lang/fr-FR/admin/labels/message.php
+resources/lang/fr-FR/admin/labels/general.php
 resources/lang/fr-FR/admin/maintenances/table.php
 resources/lang/fr-FR/admin/maintenances/form.php
 resources/lang/fr-FR/admin/maintenances/message.php
@@ -6013,6 +6093,7 @@ resources/lang/mk-MK/admin/suppliers/table.php
 resources/lang/mk-MK/admin/suppliers/message.php
 resources/lang/mk-MK/admin/labels/table.php
 resources/lang/mk-MK/admin/labels/message.php
+resources/lang/mk-MK/admin/labels/general.php
 resources/lang/mk-MK/admin/maintenances/table.php
 resources/lang/mk-MK/admin/maintenances/form.php
 resources/lang/mk-MK/admin/maintenances/message.php
@@ -6096,6 +6177,7 @@ resources/lang/es-ES/admin/suppliers/table.php
 resources/lang/es-ES/admin/suppliers/message.php
 resources/lang/es-ES/admin/labels/table.php
 resources/lang/es-ES/admin/labels/message.php
+resources/lang/es-ES/admin/labels/general.php
 resources/lang/es-ES/admin/maintenances/table.php
 resources/lang/es-ES/admin/maintenances/form.php
 resources/lang/es-ES/admin/maintenances/message.php
@@ -6179,6 +6261,7 @@ resources/lang/zh-TW/admin/suppliers/table.php
 resources/lang/zh-TW/admin/suppliers/message.php
 resources/lang/zh-TW/admin/labels/table.php
 resources/lang/zh-TW/admin/labels/message.php
+resources/lang/zh-TW/admin/labels/general.php
 resources/lang/zh-TW/admin/maintenances/table.php
 resources/lang/zh-TW/admin/maintenances/form.php
 resources/lang/zh-TW/admin/maintenances/message.php
@@ -6262,6 +6345,7 @@ resources/lang/tl-PH/admin/suppliers/table.php
 resources/lang/tl-PH/admin/suppliers/message.php
 resources/lang/tl-PH/admin/labels/table.php
 resources/lang/tl-PH/admin/labels/message.php
+resources/lang/tl-PH/admin/labels/general.php
 resources/lang/tl-PH/admin/maintenances/table.php
 resources/lang/tl-PH/admin/maintenances/form.php
 resources/lang/tl-PH/admin/maintenances/message.php
@@ -6345,6 +6429,7 @@ resources/lang/pt-PT/admin/suppliers/table.php
 resources/lang/pt-PT/admin/suppliers/message.php
 resources/lang/pt-PT/admin/labels/table.php
 resources/lang/pt-PT/admin/labels/message.php
+resources/lang/pt-PT/admin/labels/general.php
 resources/lang/pt-PT/admin/maintenances/table.php
 resources/lang/pt-PT/admin/maintenances/form.php
 resources/lang/pt-PT/admin/maintenances/message.php
@@ -6428,6 +6513,7 @@ resources/lang/sq-AL/admin/suppliers/table.php
 resources/lang/sq-AL/admin/suppliers/message.php
 resources/lang/sq-AL/admin/labels/table.php
 resources/lang/sq-AL/admin/labels/message.php
+resources/lang/sq-AL/admin/labels/general.php
 resources/lang/sq-AL/admin/maintenances/table.php
 resources/lang/sq-AL/admin/maintenances/form.php
 resources/lang/sq-AL/admin/maintenances/message.php
@@ -6511,6 +6597,7 @@ resources/lang/om-ET/admin/suppliers/table.php
 resources/lang/om-ET/admin/suppliers/message.php
 resources/lang/om-ET/admin/labels/table.php
 resources/lang/om-ET/admin/labels/message.php
+resources/lang/om-ET/admin/labels/general.php
 resources/lang/om-ET/admin/maintenances/table.php
 resources/lang/om-ET/admin/maintenances/form.php
 resources/lang/om-ET/admin/maintenances/message.php
@@ -6594,6 +6681,7 @@ resources/lang/mr-IN/admin/suppliers/table.php
 resources/lang/mr-IN/admin/suppliers/message.php
 resources/lang/mr-IN/admin/labels/table.php
 resources/lang/mr-IN/admin/labels/message.php
+resources/lang/mr-IN/admin/labels/general.php
 resources/lang/mr-IN/admin/maintenances/table.php
 resources/lang/mr-IN/admin/maintenances/form.php
 resources/lang/mr-IN/admin/maintenances/message.php
@@ -6677,6 +6765,7 @@ resources/lang/mn-MN/admin/suppliers/table.php
 resources/lang/mn-MN/admin/suppliers/message.php
 resources/lang/mn-MN/admin/labels/table.php
 resources/lang/mn-MN/admin/labels/message.php
+resources/lang/mn-MN/admin/labels/general.php
 resources/lang/mn-MN/admin/maintenances/table.php
 resources/lang/mn-MN/admin/maintenances/form.php
 resources/lang/mn-MN/admin/maintenances/message.php
@@ -6760,6 +6849,7 @@ resources/lang/fil-PH/admin/suppliers/table.php
 resources/lang/fil-PH/admin/suppliers/message.php
 resources/lang/fil-PH/admin/labels/table.php
 resources/lang/fil-PH/admin/labels/message.php
+resources/lang/fil-PH/admin/labels/general.php
 resources/lang/fil-PH/admin/maintenances/table.php
 resources/lang/fil-PH/admin/maintenances/form.php
 resources/lang/fil-PH/admin/maintenances/message.php
@@ -6843,6 +6933,7 @@ resources/lang/cs-CZ/admin/suppliers/table.php
 resources/lang/cs-CZ/admin/suppliers/message.php
 resources/lang/cs-CZ/admin/labels/table.php
 resources/lang/cs-CZ/admin/labels/message.php
+resources/lang/cs-CZ/admin/labels/general.php
 resources/lang/cs-CZ/admin/maintenances/table.php
 resources/lang/cs-CZ/admin/maintenances/form.php
 resources/lang/cs-CZ/admin/maintenances/message.php
@@ -6926,6 +7017,7 @@ resources/lang/de-DE/admin/suppliers/table.php
 resources/lang/de-DE/admin/suppliers/message.php
 resources/lang/de-DE/admin/labels/table.php
 resources/lang/de-DE/admin/labels/message.php
+resources/lang/de-DE/admin/labels/general.php
 resources/lang/de-DE/admin/maintenances/table.php
 resources/lang/de-DE/admin/maintenances/form.php
 resources/lang/de-DE/admin/maintenances/message.php
@@ -7009,6 +7101,7 @@ resources/lang/ka-GE/admin/suppliers/table.php
 resources/lang/ka-GE/admin/suppliers/message.php
 resources/lang/ka-GE/admin/labels/table.php
 resources/lang/ka-GE/admin/labels/message.php
+resources/lang/ka-GE/admin/labels/general.php
 resources/lang/ka-GE/admin/maintenances/table.php
 resources/lang/ka-GE/admin/maintenances/form.php
 resources/lang/ka-GE/admin/maintenances/message.php
@@ -7092,6 +7185,7 @@ resources/lang/mi-NZ/admin/suppliers/table.php
 resources/lang/mi-NZ/admin/suppliers/message.php
 resources/lang/mi-NZ/admin/labels/table.php
 resources/lang/mi-NZ/admin/labels/message.php
+resources/lang/mi-NZ/admin/labels/general.php
 resources/lang/mi-NZ/admin/maintenances/table.php
 resources/lang/mi-NZ/admin/maintenances/form.php
 resources/lang/mi-NZ/admin/maintenances/message.php
@@ -7175,6 +7269,7 @@ resources/lang/hu-HU/admin/suppliers/table.php
 resources/lang/hu-HU/admin/suppliers/message.php
 resources/lang/hu-HU/admin/labels/table.php
 resources/lang/hu-HU/admin/labels/message.php
+resources/lang/hu-HU/admin/labels/general.php
 resources/lang/hu-HU/admin/maintenances/table.php
 resources/lang/hu-HU/admin/maintenances/form.php
 resources/lang/hu-HU/admin/maintenances/message.php
@@ -7258,6 +7353,7 @@ resources/lang/vi-VN/admin/suppliers/table.php
 resources/lang/vi-VN/admin/suppliers/message.php
 resources/lang/vi-VN/admin/labels/table.php
 resources/lang/vi-VN/admin/labels/message.php
+resources/lang/vi-VN/admin/labels/general.php
 resources/lang/vi-VN/admin/maintenances/table.php
 resources/lang/vi-VN/admin/maintenances/form.php
 resources/lang/vi-VN/admin/maintenances/message.php
@@ -7341,6 +7437,7 @@ resources/lang/ko-KR/admin/suppliers/table.php
 resources/lang/ko-KR/admin/suppliers/message.php
 resources/lang/ko-KR/admin/labels/table.php
 resources/lang/ko-KR/admin/labels/message.php
+resources/lang/ko-KR/admin/labels/general.php
 resources/lang/ko-KR/admin/maintenances/table.php
 resources/lang/ko-KR/admin/maintenances/form.php
 resources/lang/ko-KR/admin/maintenances/message.php
@@ -7424,6 +7521,7 @@ resources/lang/nn-NO/admin/suppliers/table.php
 resources/lang/nn-NO/admin/suppliers/message.php
 resources/lang/nn-NO/admin/labels/table.php
 resources/lang/nn-NO/admin/labels/message.php
+resources/lang/nn-NO/admin/labels/general.php
 resources/lang/nn-NO/admin/maintenances/table.php
 resources/lang/nn-NO/admin/maintenances/form.php
 resources/lang/nn-NO/admin/maintenances/message.php
@@ -7507,6 +7605,7 @@ resources/lang/ta-IN/admin/suppliers/table.php
 resources/lang/ta-IN/admin/suppliers/message.php
 resources/lang/ta-IN/admin/labels/table.php
 resources/lang/ta-IN/admin/labels/message.php
+resources/lang/ta-IN/admin/labels/general.php
 resources/lang/ta-IN/admin/maintenances/table.php
 resources/lang/ta-IN/admin/maintenances/form.php
 resources/lang/ta-IN/admin/maintenances/message.php
@@ -7590,6 +7689,7 @@ resources/lang/en-ID/admin/suppliers/table.php
 resources/lang/en-ID/admin/suppliers/message.php
 resources/lang/en-ID/admin/labels/table.php
 resources/lang/en-ID/admin/labels/message.php
+resources/lang/en-ID/admin/labels/general.php
 resources/lang/en-ID/admin/maintenances/table.php
 resources/lang/en-ID/admin/maintenances/form.php
 resources/lang/en-ID/admin/maintenances/message.php
@@ -7673,6 +7773,7 @@ resources/lang/zu-ZA/admin/suppliers/table.php
 resources/lang/zu-ZA/admin/suppliers/message.php
 resources/lang/zu-ZA/admin/labels/table.php
 resources/lang/zu-ZA/admin/labels/message.php
+resources/lang/zu-ZA/admin/labels/general.php
 resources/lang/zu-ZA/admin/maintenances/table.php
 resources/lang/zu-ZA/admin/maintenances/form.php
 resources/lang/zu-ZA/admin/maintenances/message.php
@@ -7756,6 +7857,7 @@ resources/lang/no-NO/admin/suppliers/table.php
 resources/lang/no-NO/admin/suppliers/message.php
 resources/lang/no-NO/admin/labels/table.php
 resources/lang/no-NO/admin/labels/message.php
+resources/lang/no-NO/admin/labels/general.php
 resources/lang/no-NO/admin/maintenances/table.php
 resources/lang/no-NO/admin/maintenances/form.php
 resources/lang/no-NO/admin/maintenances/message.php
@@ -7839,6 +7941,7 @@ resources/lang/ms-MY/admin/suppliers/table.php
 resources/lang/ms-MY/admin/suppliers/message.php
 resources/lang/ms-MY/admin/labels/table.php
 resources/lang/ms-MY/admin/labels/message.php
+resources/lang/ms-MY/admin/labels/general.php
 resources/lang/ms-MY/admin/maintenances/table.php
 resources/lang/ms-MY/admin/maintenances/form.php
 resources/lang/ms-MY/admin/maintenances/message.php
@@ -7922,6 +8025,7 @@ resources/lang/es-VE/admin/suppliers/table.php
 resources/lang/es-VE/admin/suppliers/message.php
 resources/lang/es-VE/admin/labels/table.php
 resources/lang/es-VE/admin/labels/message.php
+resources/lang/es-VE/admin/labels/general.php
 resources/lang/es-VE/admin/maintenances/table.php
 resources/lang/es-VE/admin/maintenances/form.php
 resources/lang/es-VE/admin/maintenances/message.php
@@ -8005,6 +8109,7 @@ resources/lang/ga-IE/admin/suppliers/table.php
 resources/lang/ga-IE/admin/suppliers/message.php
 resources/lang/ga-IE/admin/labels/table.php
 resources/lang/ga-IE/admin/labels/message.php
+resources/lang/ga-IE/admin/labels/general.php
 resources/lang/ga-IE/admin/maintenances/table.php
 resources/lang/ga-IE/admin/maintenances/form.php
 resources/lang/ga-IE/admin/maintenances/message.php
@@ -8088,6 +8193,7 @@ resources/lang/en-GB/admin/suppliers/table.php
 resources/lang/en-GB/admin/suppliers/message.php
 resources/lang/en-GB/admin/labels/table.php
 resources/lang/en-GB/admin/labels/message.php
+resources/lang/en-GB/admin/labels/general.php
 resources/lang/en-GB/admin/maintenances/table.php
 resources/lang/en-GB/admin/maintenances/form.php
 resources/lang/en-GB/admin/maintenances/message.php
@@ -8171,6 +8277,7 @@ resources/lang/sv-SE/admin/suppliers/table.php
 resources/lang/sv-SE/admin/suppliers/message.php
 resources/lang/sv-SE/admin/labels/table.php
 resources/lang/sv-SE/admin/labels/message.php
+resources/lang/sv-SE/admin/labels/general.php
 resources/lang/sv-SE/admin/maintenances/table.php
 resources/lang/sv-SE/admin/maintenances/form.php
 resources/lang/sv-SE/admin/maintenances/message.php
@@ -8254,6 +8361,7 @@ resources/lang/lv-LV/admin/suppliers/table.php
 resources/lang/lv-LV/admin/suppliers/message.php
 resources/lang/lv-LV/admin/labels/table.php
 resources/lang/lv-LV/admin/labels/message.php
+resources/lang/lv-LV/admin/labels/general.php
 resources/lang/lv-LV/admin/maintenances/table.php
 resources/lang/lv-LV/admin/maintenances/form.php
 resources/lang/lv-LV/admin/maintenances/message.php
@@ -8452,6 +8560,8 @@ app/SyncAdapters/JumpCloud/JumpCloudAdapter.php
 app/SyncAdapters/JumpCloud/JumpCloudClient.php
 app/SyncAdapters/Fleet/FleetClient.php
 app/SyncAdapters/Fleet/FleetAdapter.php
+app/SyncAdapters/MosyleBusiness/MosyleBusinessClient.php
+app/SyncAdapters/MosyleBusiness/MosyleBusinessAdapter.php
 app/SyncAdapters/MerakiSystemsManager/MerakiSystemsManagerAdapter.php
 app/SyncAdapters/MerakiSystemsManager/MerakiClient.php
 app/SyncAdapters/CustomHttp/CustomHttpAdapter.php
@@ -8502,6 +8612,7 @@ app/Observers/AccessoryObserver.php
 app/Observers/LocationObserver.php
 app/Observers/AssetObserver.php
 app/Mail/BaseMailable.php
+app/Mail/AcceptanceReRequestMail.php
 app/Mail/BulkAssetCheckoutMail.php
 app/Mail/CheckoutComponentMail.php
 app/Mail/CheckinAssetMail.php
@@ -8554,10 +8665,10 @@ app/Console/Commands/ToggleCustomfieldEncryption.php
 app/Console/Commands/PushInventory.php
 app/Console/Commands/ObjectImportCommand.php
 app/Console/Commands/FixMismatchedAssetsAndLogs.php
+app/Console/Commands/AuditFileStorage.php
 app/Console/Commands/PaveIt.php
 app/Console/Commands/RemoveExplicitEols.php
 app/Console/Commands/DisableLDAP.php
-app/Console/Commands/CheckOrphanUploads.php
 app/Console/Commands/PullInventory.php
 app/Console/Commands/RestoreDeletedUsers.php
 app/Console/Commands/BulkDelete.php
@@ -8584,6 +8695,7 @@ app/Console/Commands/CreateAdmin.php
 app/Console/Commands/FixDoubleEscape.php
 app/Console/Commands/SendExpirationAlerts.php
 app/Console/Commands/GeneratePersonalAccessToken.php
+app/Console/Commands/RegenerateAcceptances.php
 app/Console/Commands/ValidateAssets.php
 app/Console/Commands/SyncAssetCounters.php
 app/Console/Commands/FixUpAssignedTypeWithoutAssignedTo.php
@@ -8629,6 +8741,8 @@ app/Notifications/AcceptanceItemDeclinedNotification.php
 app/Notifications/InventoryAlert.php
 app/Notifications/CheckinAssetNotification.php
 app/Notifications/CheckoutAccessoryNotification.php
+app/Actions/Acceptances/RegenerateAcceptancesResult.php
+app/Actions/Acceptances/RegenerateAcceptancesAction.php
 app/Actions/Acceptances/CreateCheckoutAcceptanceAction.php
 app/Actions/Manufacturers/DestroyManufacturerAction.php
 app/Actions/Suppliers/DestroySupplierAction.php
@@ -8842,6 +8956,7 @@ app/Http/Requests/AdjustQuantityRequest.php
 app/Http/Requests/AssetCheckoutRequest.php
 app/Http/Requests/StoreLabelSettings.php
 app/Http/Requests/StoreAccessoryRequest.php
+app/Http/Requests/CustomLabelRequest.php
 app/Http/Requests/FilterRequest.php
 app/Http/Requests/StoreAssetModelRequest.php
 app/Http/Requests/AccessoryCheckoutRequest.php
@@ -8900,6 +9015,7 @@ app/Models/Manufacturer.php
 app/Models/Department.php
 app/Models/Traits/Searchable.php
 app/Models/Traits/HasUploads.php
+app/Models/Traits/HasImageUpload.php
 app/Models/Traits/HasOrders.php
 app/Models/Traits/CompanyableTrait.php
 app/Models/Traits/Requestable.php
@@ -8992,7 +9108,21 @@ app/Models/Labels/Sheets/Avery/_5520.php
 app/Models/Labels/Sheets/Avery/_5267_A.php
 app/Models/Labels/Sheets/Avery/_5267.php
 app/Models/Labels/Sheets/Avery/_5520_B.php
+app/Models/Labels/CustomLabelFonts.php
 app/Models/Labels/FieldOption.php
+app/Models/Labels/CustomUserLabel.php
+app/Models/Labels/CustomLabels/Concerns/SeedsCustomLabelFromTemplate.php
+app/Models/Labels/CustomLabels/Concerns/RenderCustomLabelContent.php
+app/Models/Labels/CustomLabels/Concerns/HasCustomLabelSupports.php
+app/Models/Labels/CustomLabels/Concerns/HasCustomLabelEditorSections.php
+app/Models/Labels/CustomLabels/Concerns/HasCustomLabelEditorConfig.php
+app/Models/Labels/CustomLabels/Concerns/BuildsCustomLabelLayout.php
+app/Models/Labels/CustomLabels/Concerns/HasCustomLabelContentProperties.php
+app/Models/Labels/CustomLabels/PreviewTapeLabel.php
+app/Models/Labels/CustomLabels/CustomTapeLabel.php
+app/Models/Labels/CustomLabels/CustomSheetLabel.php
+app/Models/Labels/CustomLabels/PreviewSheetLabel.php
+app/Models/Labels/LabelPreviewAsset.php
 app/Models/Labels/DefaultLabel.php
 app/Models/Labels/Label.php
 app/Models/Labels/Field.php
@@ -9008,6 +9138,7 @@ app/Models/ComponentAssignment.php
 app/Models/Actionlog.php
 app/Models/MaintenanceType.php
 app/Enums/ActionType.php
+app/Enums/FileStorage.php
 app/Enums/CheckoutRequestState.php
 app/Livewire/OauthClients.php
 app/Livewire/Importer.php
@@ -9023,6 +9154,8 @@ app/Livewire/PersonalAccessTokens.php
 app/Livewire/CustomFieldEditor.php
 app/Livewire/NeedsAttention.php
 app/Livewire/AdminPersonalAccessTokens.php
+app/Livewire/Labels/NewLabelSetup.php
+app/Livewire/Labels/ImportLabel.php
 app/Livewire/ReportTemplateSelect.php
 app/Exceptions/MissingLogTarget.php
 app/Exceptions/ItemStillHasUsers.php
@@ -9048,6 +9181,7 @@ app/View/Label.php
 app/View/Composers/SidebarComposer.php
 app/View/Composers/ImpersonationBannerComposer.php
 app/Services/PredefinedKitCheckoutService.php
+app/Services/CustomLabelImportValidator.php
 app/Services/Saml.php
 app/Services/SnipeTranslator.php
 app/Services/Oidc/OidcUserResolver.php
@@ -9055,6 +9189,7 @@ app/Services/Oidc/OidcTokenValidator.php
 app/Rules/CssColor.php
 app/Rules/AllowedUploadExtension.php
 app/Rules/UniqueUndeleted.php
+app/Rules/LabelGeometryRules.php
 app/Rules/DateEncrypted.php
 app/Rules/ValidJson.php
 app/Rules/UrlEncrypted.php
